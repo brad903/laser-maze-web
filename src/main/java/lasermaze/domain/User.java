@@ -1,7 +1,7 @@
 package lasermaze.domain;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -11,16 +11,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true, nullable = false)
     @Size(min = 3, max = 20)
+    @NotNull
     private String userId;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     @Size(min = 3, max = 20)
+    @NotNull
     private String password;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     @Size(min = 3, max = 20)
+    @NotNull
     private String name;
 
 

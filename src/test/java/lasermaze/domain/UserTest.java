@@ -25,4 +25,26 @@ public class UserTest extends BasicAuthAcceptanceTest {
         ResponseEntity<String> response = template.postForEntity("/users/join", httpEntity, String.class);
         softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
     }
+
+    @Test
+    public void 회원가입_아이디중복_실패() {
+        HttpEntity httpEntity = HtmlFormDataBuilder.urlEncodedForm()
+                .addParameter("userId", "doby")
+                .addParameter("password", "1234")
+                .addParameter("name", "dobyisfree")
+                .build();
+        ResponseEntity<String> response = template.postForEntity("/users/join", httpEntity, String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    public void 회원가입_글자수3자리미만_실패() {
+        HttpEntity httpEntity = HtmlFormDataBuilder.urlEncodedForm()
+                .addParameter("userId", "by")
+                .addParameter("password", "1234")
+                .addParameter("name", "dobyisfree")
+                .build();
+        ResponseEntity<String> response = template.postForEntity("/users/join", httpEntity, String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
 }
