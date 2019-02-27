@@ -86,4 +86,12 @@ public class UserAcceptanceTest extends BasicAuthAcceptanceTest {
         ResponseEntity<String> response = template.postForEntity("/users/login", httpEntity, String.class);
         softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
     }
+
+
+    @Test
+    public void 로그아웃_성공() {
+        ResponseEntity<String> response = template.withBasicAuth("doby", "1234")
+                                            .getForEntity("/users/logout", String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+    }
 }

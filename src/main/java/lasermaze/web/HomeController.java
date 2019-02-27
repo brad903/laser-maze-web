@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpSession;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Controller

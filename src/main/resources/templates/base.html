@@ -30,10 +30,14 @@
             <div class="mdl-layout-spacer"></div>
             <!-- Tabs -->
             <nav class="mdl-navigation">
+                {{^ loginedUser }}
                 <a class="mdl-navigation__link" href="/users/login">login</a>
                 <a class="mdl-navigation__link" href="/users/join">join</a>
+                {{/ loginedUser }}
+                {{# loginedUser }}
                 <a class="mdl-navigation__link" href="/users/logout">logout</a>
                 <a class="mdl-navigation__link" href="/users/{{id}}/form">My</a>
+                {{/ loginedUser }}
             </nav>
         </div>
     </header>

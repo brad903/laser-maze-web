@@ -1,6 +1,7 @@
 package lasermaze.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,17 +14,16 @@ public class User {
 
     @Column(length = 20, unique = true, nullable = false)
     @Size(min = 3, max = 20)
-    @NotNull
+    @NotEmpty
     private String userId;
 
     @Column(length = 20, nullable = false)
     @Size(min = 3, max = 20)
-    @NotNull
+    @NotEmpty
     private String password;
 
     @Column(length = 20, nullable = false)
     @Size(min = 3, max = 20)
-    @NotNull
     private String name;
 
 
@@ -80,7 +80,7 @@ public class User {
                 '}';
     }
 
-    public boolean matchPassword(User user) {
-        return this.password.equals(user.password);
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 }

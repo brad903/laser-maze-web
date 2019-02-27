@@ -4,8 +4,9 @@ import lasermaze.UnSupportedFormatException;
 import lasermaze.domain.User;
 import lasermaze.security.HttpSessionUtils;
 import lasermaze.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -43,8 +46,14 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginRequest(@Valid User user, HttpSession httpSession) {
-        userService.login(user);
+        userService.login(user.getUserId(), user.getPassword());
         httpSession.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
         return "redirect:/";
     }
 }

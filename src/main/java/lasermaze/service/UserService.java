@@ -27,9 +27,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void login(User user) {
-        if(!findByUserId(user.getUserId()).matchPassword(user)) {
+    public User login(String userId, String password) {
+        User mayUser = findByUserId(userId);
+        if(!mayUser.matchPassword(password)) {
             throw new UnAuthenticationException("잘못된 패스워드 입력하셨습니다");
         }
+
+        return mayUser;
     }
 }
