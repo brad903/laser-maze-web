@@ -28,6 +28,14 @@ public class User {
 
 
     public User() {
+
+    }
+
+    public User(String userId, String password, String name) {
+        this.id = id;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
     }
 
     public long getId() {
@@ -70,5 +78,9 @@ public class User {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public boolean matchPassword(User user) {
+        return this.password.equals(user.password);
     }
 }

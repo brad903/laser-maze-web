@@ -1,5 +1,6 @@
 package lasermaze.service;
 
+import lasermaze.UnAuthenticationException;
 import lasermaze.UnSupportedFormatException;
 import lasermaze.domain.User;
 import lasermaze.domain.UserRepository;
@@ -14,11 +15,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User findByUserId(String userId) {
+        return userRepository.findByUserId(userId).orElseThrow(UnAuthenticationException::new);
+    }
+
     public void create(User user) {
         Optional<User> mayUser = userRepository.findByUserId(user.getUserId());
         if(mayUser.isPresent()) {
             throw new UnSupportedFormatException("이미 존재하는 아이디가 있습니다.");
         }
         userRepository.save(user);
+    }
+
+    public void login(User user) {
+        if(!findByUserId(user.getUserId()).matchPassword(user)) {
+            throw new UnAuthenticationException("잘못된 패스워드 입력하셨습니다");
+        }
     }
 }
