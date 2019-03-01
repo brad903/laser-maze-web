@@ -92,6 +92,6 @@ public class UserAcceptanceTest extends BasicAuthAcceptanceTest {
     public void 로그아웃_성공() {
         ResponseEntity<String> response = template.withBasicAuth("doby", "1234")
                                             .getForEntity("/users/logout", String.class);
-        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }
