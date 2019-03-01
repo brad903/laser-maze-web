@@ -1,4 +1,4 @@
-package lasermaze;
+package lasermaze.config;
 
 import lasermaze.security.BasicAuthInterceptor;
 import org.slf4j.Logger;
