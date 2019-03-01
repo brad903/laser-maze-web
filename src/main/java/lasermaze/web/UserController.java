@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/join")
     public String joinRequest(@Valid User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             throw new UnSupportedFormatException("잘못된 형식으로 입력하였습니다");
         }
         userService.create(user);
@@ -46,8 +46,8 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginRequest(@Valid User user, HttpSession httpSession) {
-        userService.login(user.getUserId(), user.getPassword());
-        httpSession.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
+        User loginedUser = userService.login(user.getUserId(), user.getPassword());
+        httpSession.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginedUser);
         return "redirect:/";
     }
 

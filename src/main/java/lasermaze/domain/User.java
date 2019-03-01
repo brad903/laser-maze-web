@@ -1,5 +1,7 @@
 package lasermaze.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -7,6 +9,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class User {
+    public static final User GUEST_USER = new GuestUser();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +39,10 @@ public class User {
         this.userId = userId;
         this.password = password;
         this.name = name;
+    }
+
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 
     public long getId() {
@@ -70,17 +77,25 @@ public class User {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    @JsonIgnore
+    public boolean isGuestUser() {
+        return false;
     }
 
-    public boolean matchPassword(String password) {
-        return this.password.equals(password);
+    private static class GuestUser extends User {
+        @Override
+        public boolean isGuestUser() {
+            return true;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "[" +
+                "id:" + id +
+                ", userId:'" + userId + '\'' +
+                ", password:'" + password + '\'' +
+                ", name:'" + name + '\'' +
+                ']';
     }
 }

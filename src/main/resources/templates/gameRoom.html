@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{room.name}}</title>
+    <script src="/webjars/jquery/dist/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body>
+
+<div id="box">
+    <input type="hidden" value="{{member.name}}" id="player1" >
+</div>
+
+<h1>{{room.name}}({{room.id}})</h1>
+<div class="content" data-room-id="{{room.id}}" data-member="{{member}}">
+    <ul class="chat_box">
+    </ul>
+    <input name="message">
+    <button class="send">보내기</button>
+</div>
+<script src="/js/socket.js"></script>
+</body>
+</html>
