@@ -6,6 +6,7 @@ public class CommandMessage {
     private int row;
     private int col;
     private int commandNumber;
+    private User user;
 
     public CommandMessage() {
     }
@@ -42,12 +43,22 @@ public class CommandMessage {
         this.commandNumber = commandNumber;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "CommandMessage{" +
-                "row=" + row +
+                "roomId='" + roomId + '\'' +
+                ", row=" + row +
                 ", col=" + col +
                 ", commandNumber=" + commandNumber +
+                ", user=" + user +
                 '}';
     }
 }

@@ -3,10 +3,7 @@ package lasermaze.socket;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lasermaze.domain.CommandMessage;
-import lasermaze.domain.GameRoom;
-import lasermaze.domain.GameRoomRepository;
-import lasermaze.domain.User;
+import lasermaze.domain.*;
 import lasermaze.security.HttpSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +38,10 @@ public class GameHandler extends TextWebSocketHandler {
         Map<String, Object> parsedMessage = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
 
         GameRoom gameRoom = repository.getGameRoom(String.valueOf(parsedMessage.get("roomId")));
+        User user = objectMapper.convertValue(parsedMessage.get("user"), User.class);
 
         if (parsedMessage.get("messageType").equals("JOIN")) {
-            gameRoom.join(objectMapper.convertValue(parsedMessage.get("user"), User.class), session);
+            gameRoom.join(Player.createPlayer(user, session));
             gameRoom.sendPlayerList(objectMapper);
         }
 
@@ -51,6 +49,17 @@ public class GameHandler extends TextWebSocketHandler {
             CommandMessage commandMessage = objectMapper.readValue(payload, CommandMessage.class);
             gameRoom.send(commandMessage, objectMapper);
         }
+
+        if (parsedMessage.get("messageType").equals("READY")) {
+            gameRoom.getPlayer(user).pushReady();
+            gameRoom.sendPlayerList(objectMapper);
+            if(gameRoom.isAllReady()) {
+                //.send();
+            }
+        }
+
+        // readyBtn 비활성화
+        // Player1 시작 가능 셋팅,  Player2 비활성화
 
     }
 

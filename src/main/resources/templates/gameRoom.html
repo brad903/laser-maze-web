@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{room.name}}</title>
-    <script src="/webjars/jquery/dist/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-</head>
-<body>
-
-<div id="playerList">
-
-</div>
+{{#partial "content"}}
+<div id="playerList"> </div>
+<button id="readyBtn" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
+    <i class="material-icons">play_circle_filled</i>
+</button>
 
 <div class="content" data-room-id="{{room.id}}" data-member="{{member}}">
     <ul class="chat_box">
@@ -19,6 +10,10 @@
     <input name="message">
     <button class="send">보내기</button>
 </div>
+<script src="/webjars/jquery/dist/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/js/socket.js"></script>
-</body>
-</html>
+{{/partial}}
+
+{{> home }}
