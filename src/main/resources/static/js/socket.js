@@ -21,7 +21,10 @@ $(function () {
        sock.send(JSON.stringify({roomId: roomId, messageType: 'READY', user : member}));
        sock.onmessage = function(e) {
             var countOfReady = printUsers(e);
-            alert(countOfReady);
+            if(countOfReady == 2) {
+                $('#readyBtn').attr('disabled', true);
+                alert("게임 시작!");
+            }
        }
    });
 
