@@ -9,7 +9,11 @@
                 <i class="material-icons">add</i>
             </button>
         </form>
-
+        <ul>
+        {{# gameRooms }}
+            <li> <a href="/games/join/{{id}}"> {{ name }} </a> </li>
+        {{/ gameRooms }}
+        </ul>
     </div>
 </div>
 {{/partial}}

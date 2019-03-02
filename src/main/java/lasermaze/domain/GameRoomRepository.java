@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class GameRoomRepository {
@@ -22,5 +24,9 @@ public class GameRoomRepository {
 
     public void removeGame(WebSocketSession session, ObjectMapper objectMapper) {
         gameRooms.keySet().stream().forEach(key -> gameRooms.get(key).remove(session, objectMapper));
+    }
+
+    public List<GameRoom> getAllRooms() {
+        return gameRooms.values().parallelStream().collect(Collectors.toList());
     }
 }

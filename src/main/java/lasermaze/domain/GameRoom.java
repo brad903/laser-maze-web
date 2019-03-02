@@ -9,6 +9,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 public class GameRoom {
+    public static final int MAX_PLAYER_COUNT = 2;
     private String id;
     private String name;
     private Map<User, WebSocketSession> sessions = new HashMap<>();
@@ -64,5 +65,9 @@ public class GameRoom {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isFull() {
+        return sessions.size() == MAX_PLAYER_COUNT;
     }
 }

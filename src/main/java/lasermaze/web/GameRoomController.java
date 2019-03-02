@@ -6,6 +6,7 @@ import lasermaze.domain.GameRoom;
 import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
 import lasermaze.security.LoginUser;
+import lasermaze.service.GameService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,21 +24,21 @@ public class GameRoomController {
     private static final Logger log = getLogger(GameRoomController.class);
 
     @Autowired
-    private GameRoomRepository gameRoomRepository;
+    private GameService gameService;
 
     @PostMapping
     public String create(@LoginUser User user) {
         GameRoom gameRoom = GameRoom.create(user.getName());
-        gameRoomRepository.save(gameRoom);
+        gameService.create(gameRoom);
         return "redirect:/games/join/" + gameRoom.getId();
     }
 
     @GetMapping("/join/{id}")
     public String join(@LoginUser User user, @PathVariable String id, Model model) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        GameRoom gameRoom = gameRoomRepository.getGameRoom(id);
+        GameRoom gameRoom = gameService.getGameRoom(id);
+        if(gameRoom.isFull()) return "redirect:/";
         model.addAttribute("room", gameRoom);
-        model.addAttribute("member", mapper.writeValueAsString(user));
+        model.addAttribute("member", new ObjectMapper().writeValueAsString(user));
         return "gameRoom";
     }
 
