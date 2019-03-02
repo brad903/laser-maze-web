@@ -2,7 +2,7 @@ package lasermaze.domain;
 
 public class CommandMessage {
 
-    private String id;
+    private String roomId;
     private int row;
     private int col;
     private int commandNumber;
@@ -10,12 +10,12 @@ public class CommandMessage {
     public CommandMessage() {
     }
 
-    public String getId() {
-        return id;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public int getRow() {
@@ -45,8 +45,7 @@ public class CommandMessage {
     @Override
     public String toString() {
         return "CommandMessage{" +
-                "id='" + id + '\'' +
-                ", row=" + row +
+                "row=" + row +
                 ", col=" + col +
                 ", commandNumber=" + commandNumber +
                 '}';

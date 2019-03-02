@@ -1,6 +1,8 @@
 package lasermaze.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,5 +18,9 @@ public class GameRoomRepository {
 
     public GameRoom getGameRoom(String id) {
         return gameRooms.get(id);
+    }
+
+    public void removeGame(WebSocketSession session, ObjectMapper objectMapper) {
+        gameRooms.keySet().stream().forEach(key -> gameRooms.get(key).remove(session, objectMapper));
     }
 }
