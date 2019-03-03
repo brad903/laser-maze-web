@@ -14,7 +14,6 @@ import org.springframework.web.socket.WebSocketSession;
 public class GameRoom {
     private static final Logger log = LoggerFactory.getLogger(GameRoom.class);
 
-
     public static final int MAX_PLAYER_COUNT = 2;
     private String id;
     private String name;
@@ -31,13 +30,13 @@ public class GameRoom {
         players.add(player);
     }
 
-    public void sendPlayerList(ObjectMapper objectMapper) {
-        send(players, objectMapper);
+    public void sendPlayerList() {
+        send(players);
     }
 
-    public <T> void send(T messageObject, ObjectMapper objectMapper) {
+    public <T> void send(T messageObject) {
         try {
-            TextMessage message = new TextMessage(objectMapper.writeValueAsString(messageObject));
+            TextMessage message = new TextMessage(new ObjectMapper().writeValueAsString(messageObject));
             players.parallelStream()
                     .forEach(player -> MessageSendUtils.sendMessage(player.getWebSocketSession(), message));
         } catch (JsonProcessingException e) {
@@ -45,14 +44,14 @@ public class GameRoom {
         }
     }
 
-    public void remove(WebSocketSession target, ObjectMapper objectMapper) {
+    public void remove(WebSocketSession target) {
         Optional<Player> removablePlayer = players.parallelStream()
                 .filter(player -> player.hasSameSession(target))
                 .findFirst();
 
         if (removablePlayer.isPresent()) {
             players.remove(removablePlayer.get());
-            sendPlayerList(objectMapper);
+            sendPlayerList();
         }
     }
 

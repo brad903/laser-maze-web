@@ -10,7 +10,6 @@ public class Player {
     private boolean ready;
 
     public Player() {
-
     }
 
     public static Player createPlayer (User user, WebSocketSession webSocketSession) {

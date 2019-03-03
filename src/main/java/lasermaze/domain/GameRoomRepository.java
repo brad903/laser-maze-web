@@ -21,8 +21,8 @@ public class GameRoomRepository {
         return gameRooms.get(id);
     }
 
-    public void removeGame(WebSocketSession session, ObjectMapper objectMapper) {
-        gameRooms.keySet().stream().forEach(key -> gameRooms.get(key).remove(session, objectMapper));
+    public void removeGame(WebSocketSession session) {
+        gameRooms.keySet().stream().forEach(key -> gameRooms.get(key).remove(session));
     }
 
     public List<GameRoom> getAllRooms() {

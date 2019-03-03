@@ -17,14 +17,8 @@ public class GameHandler extends TextWebSocketHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GameHandler.class);
 
-    private final ObjectMapper objectMapper;
-    private final GameRoomRepository roomRepository;
-
     @Autowired
-    public GameHandler(ObjectMapper objectMapper, GameRoomRepository roomRepository) {
-        this.objectMapper = objectMapper;
-        this.roomRepository = roomRepository;
-    }
+    private GameRoomRepository roomRepository;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -33,35 +27,16 @@ public class GameHandler extends TextWebSocketHandler {
         User user = WebSocketSessionUtils.getUserFromSocket(session);
 
         String payload = message.getPayload();
-        Message parsedMessage = objectMapper.readValue(payload, Message.class);
+        log.debug("Payload : {}", payload);
+        MessageDto messageDto = new ObjectMapper().readValue(payload, MessageDto.class);
+        Message parsedMessage = messageDto.createMessage();
 
-
-        if (parsedMessage.getMessageType().equals(MessageType.JOIN)) {
-            gameRoom.join(Player.createPlayer(user, session));
-            gameRoom.sendPlayerList(objectMapper);
-        }
-
-        if (parsedMessage.getMessageType().equals("PLAY")) {
-            CommandMessage commandMessage = objectMapper.readValue(payload, CommandMessage.class);
-            gameRoom.send(commandMessage, objectMapper);
-        }
-
-        if (parsedMessage.getMessageType().equals("READY")) {
-            gameRoom.getPlayer(user).pushReady();
-            gameRoom.sendPlayerList(objectMapper);
-            if (gameRoom.isAllReady()) {
-                //.send();
-            }
-        }
-
-        // readyBtn 비활성화
-        // Player1 시작 가능 셋팅,  Player2 비활성화
-
+        parsedMessage.process(gameRoom, user, session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         log.debug("Session Remove");
-        roomRepository.removeGame(session, objectMapper);
+        roomRepository.removeGame(session);
     }
 }

@@ -1,24 +1,16 @@
 var sock;
 
 $(function () {
-    var chatBox = $('.chat_box');
-    var messageInput = $('input[name="message"]');
-    var sendBtn = $('.send');
-    var roomId = $('.content').data('room-id');
-    var member = $('.content').data('member');
     sock = new SockJS("/ws/laser-maze");
     sock.onopen = function () {
-        console.log(roomId);
-        sock.send(JSON.stringify({roomId: roomId, messageType: 'JOIN', user : member}));
+        sock.send(JSON.stringify({messageType: 'JOIN'}));
         sock.onmessage = function(e) {
             printUsers(e);
         }
-
     }
 
    $('#readyBtn').on('click', function(e) {
-       console.log('ready');
-       sock.send(JSON.stringify({roomId: roomId, messageType: 'READY', user : member}));
+       sock.send(JSON.stringify({messageType: 'READY'}));
        sock.onmessage = function(e) {
             var countOfReady = printUsers(e);
             if(countOfReady == 2) {
@@ -30,7 +22,7 @@ $(function () {
 
     sendBtn.click(function () {
         var message = messageInput.val();
-        sock.send(JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: message, writer: member}));
+        sock.send(JSON.stringify({type: 'PLAY', }));
         messageInput.val('');
     });
 });
@@ -48,6 +40,5 @@ function printUsers(e) {
         code += ('<h4> ' +  data.user.name  + '  -  ' + readyStatus + '</h4>')
     });
     $('#playerList').html(code);
-
     return cnt;
 }
