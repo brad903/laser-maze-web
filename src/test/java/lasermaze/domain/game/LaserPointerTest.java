@@ -6,8 +6,6 @@ import lasermaze.domain.game.piece.common.Point;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import static lasermaze.domain.game.user.UserTest.BRAD;
-import static lasermaze.domain.game.user.UserTest.DOBY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -16,7 +14,7 @@ public class LaserPointerTest {
 
     @Test
     public void move() {
-        ChessSquare chessSquare = new ChessSquare(DOBY, BRAD);
+        ChessSquare chessSquare = new ChessSquare();
         Board board = new Board(chessSquare);
         LaserPointer laserPointer = new LaserPointer(Direction.EAST, new Point(7, 0));
         laserPointer.move();
@@ -26,7 +24,7 @@ public class LaserPointerTest {
 
     @Test
     public void removePiece() {
-        ChessSquare chessSquare = new ChessSquare(DOBY, BRAD);
+        ChessSquare chessSquare = new ChessSquare();
         Board board = new Board(chessSquare);
         LaserPointer laserPointer = new LaserPointer(Direction.EAST, new Point(3, 3));
         board.deletePiece(laserPointer);

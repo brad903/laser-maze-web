@@ -8,13 +8,16 @@ public class GameUser {
     private UserDelimiter userDelimiter;
     private boolean isWinner;
 
-
     public GameUser(UserDelimiter userDelimiter) {
         this.userDelimiter = userDelimiter;
     }
 
     public boolean isDummyUser() {
         return false;
+    }
+
+    public boolean isSameDelimiter(UserDelimiter userDelimiter) {
+        return this.userDelimiter.equals(userDelimiter);
     }
 
     private static class DummyGameUser extends GameUser {

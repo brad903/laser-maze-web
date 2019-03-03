@@ -6,6 +6,7 @@ import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.*;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +19,8 @@ public class ChessSquare {
     public static final int CHESSBOARD_SIZE = 8;
 
     private List<List<Piece>> chessSquares = new ArrayList<>();
-    private GameUser gameUser1;
-    private GameUser gameUser2;
 
-    public ChessSquare(GameUser gameUser1, GameUser gameUser2) {
-        this.gameUser1 = gameUser1;
-        this.gameUser2 = gameUser2;
+    public ChessSquare() {
         dummyInit();
     }
 
@@ -38,31 +35,31 @@ public class ChessSquare {
     }
 
     public ChessSquare pieceInit() {
-        putSymmetryPieces(gameUser2, new King(gameUser1, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
-        putSymmetryPieces(gameUser2, new Laser(gameUser1, Direction.EAST, new Point(7, 0), LaserPiece.getInstance(), ImagePath.BLACK_LASER));
-        putSymmetryPieces(gameUser2, new Splitter(gameUser1, Direction.NORTHEAST, new Point(7, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_SPLITTER));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(7, 4), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(1, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(2, 0), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(3, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.SOUTHEAST, new Point(4, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(3, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(5, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new King(UserDelimiter.BLACK, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
+        putSymmetryPieces(UserDelimiter.WHITE, new Laser(UserDelimiter.BLACK, Direction.EAST, new Point(7, 0), LaserPiece.getInstance(), ImagePath.BLACK_LASER));
+        putSymmetryPieces(UserDelimiter.WHITE, new Splitter(UserDelimiter.BLACK, Direction.NORTHEAST, new Point(7, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_SPLITTER));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.NORTHWEST, new Point(7, 4), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.NORTHWEST, new Point(1, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.NORTHEAST, new Point(2, 0), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.NORTHEAST, new Point(3, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.SOUTHEAST, new Point(4, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.EAST, new Point(3, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
+        putSymmetryPieces(UserDelimiter.WHITE, new Knight(UserDelimiter.BLACK, Direction.EAST, new Point(5, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
         return this;
     }
 
-    public void putSymmetryPieces(GameUser otherGameUser, Piece piece) {
+    public void putSymmetryPieces(UserDelimiter otherDelimiter, Piece piece) {
         try {
             Point point = piece.getPoint();
             putPiece(point, piece);
-            putPiece(point.getSymmetrical(), piece.makeEnemy(otherGameUser));
+            putPiece(point.getSymmetrical(), piece.makeEnemy(otherDelimiter));
         } catch (CloneNotSupportedException e) {
             log.error("말 생성 오류 발생 : {}", e);
         }
     }
 
     public Dummy createDummy(Point point) {
-        return new Dummy(GameUser.DUMMY_GAME_USER, Direction.NONE, point, CommonPlay.getInstance(), ImagePath.DUMMY);
+        return new Dummy(UserDelimiter.DUMMY, Direction.NONE, point, CommonPlay.getInstance(), ImagePath.DUMMY);
     }
 
     public void putPiece(Point point, Piece piece) {

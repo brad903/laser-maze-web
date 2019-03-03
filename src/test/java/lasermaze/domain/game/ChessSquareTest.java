@@ -8,6 +8,7 @@ import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.NonLaserPiece;
+import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.support.fixture.PieceFixture;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -20,13 +21,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ChessSquareTest {
     private static final Logger log = getLogger(ChessSquareTest.class);
 
-    public static final ChessSquare CHESS_SQUARE = new ChessSquare(DOBY, BRAD);
+    public static final ChessSquare CHESS_SQUARE = new ChessSquare();
 
     @Test
     public void putSymmetryPieces() {
-        CHESS_SQUARE.putSymmetryPieces(BRAD, new King(DOBY, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
+        CHESS_SQUARE.putSymmetryPieces(UserDelimiter.WHITE, new King(UserDelimiter.BLACK, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
         Point point = new Point(3, 7);
-        assertThat(CHESS_SQUARE.getPiece(point)).isEqualTo(PieceFixture.createKing(BRAD, Direction.WEST, point));
+        assertThat(CHESS_SQUARE.getPiece(point)).isEqualTo(PieceFixture.createKing(UserDelimiter.WHITE, Direction.WEST, point));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class ChessSquareTest {
 
     @Test
     public void swap() {
-        ChessSquare chessSquare = new ChessSquare(DOBY, BRAD);
+        ChessSquare chessSquare = new ChessSquare();
         chessSquare.pieceInit();
         chessSquare.swap(new Point(3, 7), Direction.WEST);
         assertThat(chessSquare.getPiece(new Point(3, 6)) instanceof King).isTrue();

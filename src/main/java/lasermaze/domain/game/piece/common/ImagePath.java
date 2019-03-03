@@ -23,18 +23,18 @@ public enum ImagePath {
         this.imageNum = imageNum;
     }
 
-    public ImagePath getImagePath(int imageNum) {
+    public static ImagePath getImagePath(int imageNum) {
         for (ImagePath value : values()) {
             if (value.imageNum == imageNum) return value;
         }
         throw new IllegalArgumentException();
     }
 
-    public ImagePath makeEnemy() {
-        return getImagePath(imageNum + 5);
-    }
-
     public String getImagePath() {
         return imagePath;
+    }
+
+    public ImagePath makeEnemy() {
+        return getImagePath(imageNum + 5);
     }
 }

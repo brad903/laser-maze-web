@@ -10,4 +10,8 @@ public enum UserDelimiter {
     UserDelimiter(String delimiter) {
         this.delimiter = delimiter;
     }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
 }

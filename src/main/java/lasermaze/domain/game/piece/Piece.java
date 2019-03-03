@@ -6,6 +6,7 @@ import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.common.Rotation;
 import lasermaze.domain.game.piece.properties.Playable;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.dto.PieceDto;
 import org.slf4j.Logger;
 
@@ -16,25 +17,25 @@ import static org.slf4j.LoggerFactory.getLogger;
 public abstract class Piece implements Pieceable, Cloneable {
     private static final Logger log = getLogger(Piece.class);
 
-    private GameUser gameUser;
+    private UserDelimiter userDelimiter;
     protected Direction direction;
     protected Point point;
     private Playable playable;
     private ImagePath imagePath;
 
-    public Piece(GameUser gameUser, Direction direction, Point point, Playable playable, ImagePath imagePath) {
-        this.gameUser = gameUser;
+    public Piece(UserDelimiter userDelimiter, Direction direction, Point point, Playable playable, ImagePath imagePath) {
+        this.userDelimiter = userDelimiter;
         this.direction = direction;
         this.point = point;
         this.playable = playable;
         this.imagePath = imagePath;
     }
 
-    public Piece makeEnemy(GameUser gameUser) throws CloneNotSupportedException {
+    public Piece makeEnemy(UserDelimiter userDelimiter) throws CloneNotSupportedException {
         Piece enemy = clone();
         enemy.point = point.getSymmetrical();
         enemy.direction = direction.getDiametricalDirection();
-        enemy.gameUser = gameUser;
+        enemy.userDelimiter = userDelimiter;
         enemy.imagePath = imagePath.makeEnemy();
         return enemy;
     }
@@ -44,7 +45,7 @@ public abstract class Piece implements Pieceable, Cloneable {
     }
 
     public boolean isSameUser(GameUser gameUser) {
-        return this.gameUser.equals(gameUser);
+        return gameUser.isSameDelimiter(userDelimiter);
     }
 
     @Override
@@ -71,24 +72,26 @@ public abstract class Piece implements Pieceable, Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
-        return Objects.equals(gameUser, piece.gameUser) &&
+        return userDelimiter == piece.userDelimiter &&
                 direction == piece.direction &&
                 Objects.equals(point, piece.point) &&
-                Objects.equals(playable, piece.playable);
+                Objects.equals(playable, piece.playable) &&
+                imagePath == piece.imagePath;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(gameUser, direction, point, playable);
+        return Objects.hash(userDelimiter, direction, point, playable, imagePath);
     }
 
     @Override
     public String toString() {
         return "Piece{" +
-                "gameUser=" + gameUser +
+                "userDelimiter=" + userDelimiter +
                 ", direction=" + direction +
                 ", point=" + point +
                 ", playable=" + playable +
+                ", imagePath=" + imagePath +
                 '}';
     }
 }

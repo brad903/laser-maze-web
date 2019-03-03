@@ -6,7 +6,7 @@ import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.Playable;
 import lasermaze.domain.game.piece.properties.Reflectable;
-import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -16,8 +16,8 @@ public class Knight extends Piece {
 
     private Reflectable reflectable;
 
-    public Knight(GameUser gameUser, Direction direction, Point point, Playable playable, Reflectable reflectable, ImagePath imagePath) {
-        super(gameUser, direction, point, playable, imagePath);
+    public Knight(UserDelimiter userDelimiter, Direction direction, Point point, Playable playable, Reflectable reflectable, ImagePath imagePath) {
+        super(userDelimiter, direction, point, playable, imagePath);
         this.reflectable = reflectable;
     }
 

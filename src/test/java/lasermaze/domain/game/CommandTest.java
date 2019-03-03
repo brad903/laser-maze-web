@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import static lasermaze.domain.game.user.UserTest.BRAD;
 import static lasermaze.domain.game.user.UserTest.DOBY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -18,7 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class CommandTest {
     private static final Logger log = getLogger(CommandTest.class);
 
-    ChessSquare chessSquare = new ChessSquare(DOBY, BRAD);
+    ChessSquare chessSquare = new ChessSquare();
     Board board;
 
     @Before

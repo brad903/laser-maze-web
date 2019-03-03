@@ -3,7 +3,7 @@ package lasermaze.support.fixture;
 import lasermaze.domain.game.ChessSquare;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
-import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 
 public class BoardFixture {
 
@@ -11,8 +11,8 @@ public class BoardFixture {
         chessSquare.putPiece(point, PieceFixture.createDummy(point));
     }
 
-    public static void putKing(ChessSquare chessSquare, GameUser gameUser, Direction direction, Point point) {
-        chessSquare.putPiece(point, PieceFixture.createKing(gameUser, direction, point));
+    public static void putKing(ChessSquare chessSquare, UserDelimiter userDelimiter, Direction direction, Point point) {
+        chessSquare.putPiece(point, PieceFixture.createKing(userDelimiter, direction, point));
     }
 
     public static void putSquareNight(ChessSquare chessSquare, Direction direction, Point point) {

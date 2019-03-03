@@ -5,6 +5,7 @@ import lasermaze.domain.game.piece.King;
 import lasermaze.domain.game.piece.Laser;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
+import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.support.fixture.BoardFixture;
 import lasermaze.support.fixture.LaserPointerFixture;
 import org.junit.Before;
@@ -13,7 +14,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lasermaze.domain.game.user.UserTest.BRAD;
 import static lasermaze.domain.game.user.UserTest.DOBY;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +24,7 @@ public class BoardTest {
 
     @Before
     public void setUp() throws Exception {
-        chessSquare = new ChessSquare(DOBY, BRAD);
+        chessSquare = new ChessSquare();
         board = new Board(chessSquare);
     }
 
@@ -39,19 +39,19 @@ public class BoardTest {
 
     @Test
     public void hasObstacle() {
-        Board board = new Board(new ChessSquare(DOBY, BRAD).pieceInit());
+        Board board = new Board(new ChessSquare().pieceInit());
         assertThat(board.hasObstacle(new Point(6, 1), Direction.WEST)).isTrue();
     }
 
     @Test
     public void hasObstacle2() {
-        Board board = new Board(new ChessSquare(DOBY, BRAD).pieceInit());
+        Board board = new Board(new ChessSquare().pieceInit());
         assertThat(board.hasObstacle(new Point(6, 1), Direction.EAST)).isFalse();
     }
 
     @Test
     public void swap() {
-        Board board = new Board(new ChessSquare(DOBY, BRAD).pieceInit());
+        Board board = new Board(new ChessSquare().pieceInit());
         board.swap(new Point(3, 7), Direction.WEST);
         assertThat(board.getPiece(new Point(3, 7)) instanceof Dummy).isTrue();
         assertThat(board.getPiece(new Point(3, 6)) instanceof King).isTrue();
@@ -83,8 +83,8 @@ public class BoardTest {
     public void shoot3() {
         BoardFixture.putLaser(chessSquare, Direction.WEST, new Point(4, 7));
         BoardFixture.putSplitter(chessSquare, Direction.NORTHEAST, new Point(4, 4));
-        BoardFixture.putKing(chessSquare, DOBY, Direction.EAST, new Point(4, 0));
-        BoardFixture.putKing(chessSquare, BRAD, Direction.EAST, new Point(0, 4));
+        BoardFixture.putKing(chessSquare, UserDelimiter.BLACK, Direction.EAST, new Point(4, 0));
+        BoardFixture.putKing(chessSquare, UserDelimiter.WHITE, Direction.EAST, new Point(0, 4));
         board.shoot(DOBY);
         assertThat(board.getPiece(new Point(4, 0)) instanceof Dummy).isTrue();
         assertThat(board.getPiece(new Point(0, 4)) instanceof Dummy).isTrue();
@@ -94,9 +94,9 @@ public class BoardTest {
     public void shoot4() {
         BoardFixture.putLaser(chessSquare, Direction.EAST, new Point(4, 0));
         BoardFixture.putTriangleNight(chessSquare, Direction.NORTHWEST, new Point(4, 3));
-        BoardFixture.putKing(chessSquare, DOBY, Direction.NORTH, new Point(2, 3));
-        BoardFixture.putKing(chessSquare, BRAD, Direction.NORTH, new Point(1, 3));
-        BoardFixture.putKing(chessSquare, BRAD, Direction.NORTH, new Point(0, 3));
+        BoardFixture.putKing(chessSquare, UserDelimiter.BLACK, Direction.NORTH, new Point(2, 3));
+        BoardFixture.putKing(chessSquare, UserDelimiter.WHITE, Direction.NORTH, new Point(1, 3));
+        BoardFixture.putKing(chessSquare, UserDelimiter.WHITE, Direction.NORTH, new Point(0, 3));
         board.shoot(DOBY);
         assertThat(board.getPiece(new Point(2, 0)) instanceof Dummy).isTrue();
         assertThat(board.getPiece(new Point(1, 3)) instanceof King).isTrue();
@@ -150,7 +150,7 @@ public class BoardTest {
     public void shoot_삼각기사_오른쪽반사() {
         BoardFixture.putLaser(chessSquare, Direction.WEST, new Point(4, 7));
         BoardFixture.putTriangleNight(chessSquare, Direction.NORTHEAST, new Point(4, 4));
-        BoardFixture.putKing(chessSquare, BRAD, Direction.EAST, new Point(0, 4));
+        BoardFixture.putKing(chessSquare, UserDelimiter.WHITE, Direction.EAST, new Point(0, 4));
         board.shoot(DOBY);
         assertThat(board.getPiece(new Point(0, 4)) instanceof Dummy).isTrue();
     }
@@ -159,7 +159,7 @@ public class BoardTest {
     public void shoot_삼각기사_왼쪽반사() {
         BoardFixture.putLaser(chessSquare, Direction.EAST, new Point(4, 0));
         BoardFixture.putTriangleNight(chessSquare, Direction.SOUTHWEST, new Point(4, 4));
-        BoardFixture.putKing(chessSquare, BRAD, Direction.EAST, new Point(7, 4));
+        BoardFixture.putKing(chessSquare, UserDelimiter.WHITE, Direction.EAST, new Point(7, 4));
         board.shoot(DOBY);
         assertThat(board.getPiece(new Point(7, 4)) instanceof Dummy).isTrue();
     }

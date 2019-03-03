@@ -16,7 +16,7 @@ public class Game {
     public Game(GameUser gameUser1, GameUser gameUser2) {
         this.gameUser1 = gameUser1;
         this.gameUser2 = gameUser2;
-        board = new Board(new ChessSquare(gameUser1, gameUser2).pieceInit());
+        board = new Board(new ChessSquare().pieceInit());
     }
 
     public void start() {

@@ -7,6 +7,7 @@ import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.Playable;
 import lasermaze.domain.game.piece.properties.Reflectable;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +17,8 @@ public class Splitter extends Piece {
 
     private Reflectable reflectable;
 
-    public Splitter(GameUser gameUser, Direction direction, Point point, Playable playable, Reflectable reflectable, ImagePath imagePath) {
-        super(gameUser, direction, point, playable, imagePath);
+    public Splitter(UserDelimiter userDelimiter, Direction direction, Point point, Playable playable, Reflectable reflectable, ImagePath imagePath) {
+        super(userDelimiter, direction, point, playable, imagePath);
         this.reflectable = reflectable;
     }
 

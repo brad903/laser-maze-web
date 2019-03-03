@@ -43,8 +43,6 @@ public class GameRoomController {
         if (gameRoom.isFull()) return "redirect:/";
         httpSession.setAttribute(WebSocketSessionUtils.GAME_SESSION_KEY, id);
         return "gameRoom";
-//        model.addAttribute("room", gameRoom);
-//        model.addAttribute("member", new ObjectMapper().writeValueAsString(user));
     }
 
 }
