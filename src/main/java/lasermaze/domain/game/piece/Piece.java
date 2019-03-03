@@ -1,10 +1,12 @@
 package lasermaze.domain.game.piece;
 
 import lasermaze.domain.game.piece.common.Direction;
+import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.common.Rotation;
 import lasermaze.domain.game.piece.properties.Playable;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.dto.PieceDto;
 import org.slf4j.Logger;
 
 import java.util.Objects;
@@ -18,12 +20,14 @@ public abstract class Piece implements Pieceable, Cloneable {
     protected Direction direction;
     protected Point point;
     private Playable playable;
+    private ImagePath imagePath;
 
-    public Piece(GameUser gameUser, Direction direction, Point point, Playable playable) {
+    public Piece(GameUser gameUser, Direction direction, Point point, Playable playable, ImagePath imagePath) {
         this.gameUser = gameUser;
         this.direction = direction;
         this.point = point;
         this.playable = playable;
+        this.imagePath = imagePath;
     }
 
     public Piece makeEnemy(GameUser gameUser) throws CloneNotSupportedException {
@@ -31,6 +35,7 @@ public abstract class Piece implements Pieceable, Cloneable {
         enemy.point = point.getSymmetrical();
         enemy.direction = direction.getDiametricalDirection();
         enemy.gameUser = gameUser;
+        enemy.imagePath = imagePath.makeEnemy();
         return enemy;
     }
 
@@ -50,6 +55,10 @@ public abstract class Piece implements Pieceable, Cloneable {
     @Override
     public void rotate(Rotation rotation) {
         direction = playable.rotate(direction, rotation);
+    }
+
+    public PieceDto _toDto() {
+        return new PieceDto(direction.toString(), imagePath.getImagePath());
     }
 
     @Override

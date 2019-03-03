@@ -2,6 +2,7 @@ package lasermaze.domain.game;
 
 import lasermaze.domain.game.piece.*;
 import lasermaze.domain.game.piece.common.Direction;
+import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.*;
 import lasermaze.domain.game.user.GameUser;
@@ -37,16 +38,16 @@ public class ChessSquare {
     }
 
     public ChessSquare pieceInit() {
-        putSymmetryPieces(gameUser2, new King(gameUser1, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance()));
-        putSymmetryPieces(gameUser2, new Laser(gameUser1, Direction.EAST, new Point(7, 0), LaserPiece.getInstance()));
-        putSymmetryPieces(gameUser2, new Splitter(gameUser1, Direction.NORTHEAST, new Point(7, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(7, 4), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(1, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(2, 0), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(3, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.SOUTHEAST, new Point(4, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(3, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance()));
-        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(5, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance()));
+        putSymmetryPieces(gameUser2, new King(gameUser1, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
+        putSymmetryPieces(gameUser2, new Laser(gameUser1, Direction.EAST, new Point(7, 0), LaserPiece.getInstance(), ImagePath.BLACK_LASER));
+        putSymmetryPieces(gameUser2, new Splitter(gameUser1, Direction.NORTHEAST, new Point(7, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_SPLITTER));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(7, 4), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHWEST, new Point(1, 7), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(2, 0), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.NORTHEAST, new Point(3, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.SOUTHEAST, new Point(4, 3), NonLaserPiece.getInstance(), DiagonalReflect.getInstance(), ImagePath.BLACK_TRIANGLE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(3, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
+        putSymmetryPieces(gameUser2, new Knight(gameUser1, Direction.EAST, new Point(5, 0), NonLaserPiece.getInstance(), HorizontalReflect.getInstance(), ImagePath.BLACK_SQUARE_KNIGHT));
         return this;
     }
 
@@ -61,7 +62,7 @@ public class ChessSquare {
     }
 
     public Dummy createDummy(Point point) {
-        return new Dummy(GameUser.DUMMY_GAME_USER, Direction.NONE, point, CommonPlay.getInstance());
+        return new Dummy(GameUser.DUMMY_GAME_USER, Direction.NONE, point, CommonPlay.getInstance(), ImagePath.DUMMY);
     }
 
     public void putPiece(Point point, Piece piece) {

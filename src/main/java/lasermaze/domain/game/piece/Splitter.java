@@ -2,6 +2,7 @@ package lasermaze.domain.game.piece;
 
 import lasermaze.domain.game.LaserPointer;
 import lasermaze.domain.game.piece.common.Direction;
+import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.Playable;
 import lasermaze.domain.game.piece.properties.Reflectable;
@@ -15,8 +16,8 @@ public class Splitter extends Piece {
 
     private Reflectable reflectable;
 
-    public Splitter(GameUser gameUser, Direction direction, Point point, Playable playable, Reflectable reflectable) {
-        super(gameUser, direction, point, playable);
+    public Splitter(GameUser gameUser, Direction direction, Point point, Playable playable, Reflectable reflectable, ImagePath imagePath) {
+        super(gameUser, direction, point, playable, imagePath);
         this.reflectable = reflectable;
     }
 

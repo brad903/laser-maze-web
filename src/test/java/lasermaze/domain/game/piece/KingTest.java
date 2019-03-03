@@ -7,11 +7,14 @@ import lasermaze.domain.game.piece.common.Rotation;
 import lasermaze.support.fixture.LaserPointerFixture;
 import lasermaze.support.fixture.PieceFixture;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import static lasermaze.domain.game.user.UserTest.DOBY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class KingTest {
+    private static final Logger log = getLogger(KingTest.class);
 
     @Test
     public void move() {

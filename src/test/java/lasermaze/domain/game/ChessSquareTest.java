@@ -5,6 +5,7 @@ import lasermaze.domain.game.piece.Dummy;
 import lasermaze.domain.game.piece.King;
 import lasermaze.domain.game.piece.Laser;
 import lasermaze.domain.game.piece.common.Direction;
+import lasermaze.domain.game.piece.common.ImagePath;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.NonLaserPiece;
 import lasermaze.support.fixture.PieceFixture;
@@ -23,7 +24,7 @@ public class ChessSquareTest {
 
     @Test
     public void putSymmetryPieces() {
-        CHESS_SQUARE.putSymmetryPieces(BRAD, new King(DOBY, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance()));
+        CHESS_SQUARE.putSymmetryPieces(BRAD, new King(DOBY, Direction.EAST, new Point(4, 0), NonLaserPiece.getInstance(), ImagePath.BLACK_KING));
         Point point = new Point(3, 7);
         assertThat(CHESS_SQUARE.getPiece(point)).isEqualTo(PieceFixture.createKing(BRAD, Direction.WEST, point));
     }
