@@ -1,10 +1,8 @@
 package lasermaze.socket;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.*;
-import lasermaze.security.HttpSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,50 +12,44 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Component
 public class GameHandler extends TextWebSocketHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GameHandler.class);
 
     private final ObjectMapper objectMapper;
-    private final GameRoomRepository repository;
+    private final GameRoomRepository roomRepository;
 
     @Autowired
-    public GameHandler(ObjectMapper objectMapper, GameRoomRepository repository) {
+    public GameHandler(ObjectMapper objectMapper, GameRoomRepository roomRepository) {
         this.objectMapper = objectMapper;
-        this.repository = repository;
+        this.roomRepository = roomRepository;
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
-        Map<String,Object> map = session.getAttributes();
-        User userTest = (User)map.get(HttpSessionUtils.USER_SESSION_KEY);
-        log.debug("로그인 한 유저 : {}", userTest);
+        GameRoom gameRoom = roomRepository.getGameRoom(WebSocketSessionUtils.getGameRoomIdFromSocket(session));
+        User user = WebSocketSessionUtils.getUserFromSocket(session);
 
         String payload = message.getPayload();
-        Map<String, Object> parsedMessage = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
+        Message parsedMessage = objectMapper.readValue(payload, Message.class);
 
-        GameRoom gameRoom = repository.getGameRoom(String.valueOf(parsedMessage.get("roomId")));
-        User user = objectMapper.convertValue(parsedMessage.get("user"), User.class);
 
-        if (parsedMessage.get("messageType").equals("JOIN")) {
+        if (parsedMessage.getMessageType().equals(MessageType.JOIN)) {
             gameRoom.join(Player.createPlayer(user, session));
             gameRoom.sendPlayerList(objectMapper);
         }
 
-        if (parsedMessage.get("messageType").equals("PLAY")) {
+        if (parsedMessage.getMessageType().equals("PLAY")) {
             CommandMessage commandMessage = objectMapper.readValue(payload, CommandMessage.class);
             gameRoom.send(commandMessage, objectMapper);
         }
 
-        if (parsedMessage.get("messageType").equals("READY")) {
+        if (parsedMessage.getMessageType().equals("READY")) {
             gameRoom.getPlayer(user).pushReady();
             gameRoom.sendPlayerList(objectMapper);
-            if(gameRoom.isAllReady()) {
+            if (gameRoom.isAllReady()) {
                 //.send();
             }
         }
@@ -70,6 +62,6 @@ public class GameHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         log.debug("Session Remove");
-        repository.removeGame(session, objectMapper);
+        roomRepository.removeGame(session, objectMapper);
     }
 }

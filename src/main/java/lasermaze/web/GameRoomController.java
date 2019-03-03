@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.GameRoom;
 import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
+import lasermaze.security.HttpSessionUtils;
 import lasermaze.security.LoginUser;
 import lasermaze.service.GameService;
+import lasermaze.socket.WebSocketSessionUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -34,12 +38,13 @@ public class GameRoomController {
     }
 
     @GetMapping("/join/{id}")
-    public String join(@LoginUser User user, @PathVariable String id, Model model) throws JsonProcessingException {
+    public String join(@LoginUser User user, @PathVariable String id, HttpSession httpSession, Model model) throws JsonProcessingException {
         GameRoom gameRoom = gameService.getGameRoom(id);
-        if(gameRoom.isFull()) return "redirect:/";
-        model.addAttribute("room", gameRoom);
-        model.addAttribute("member", new ObjectMapper().writeValueAsString(user));
+        if (gameRoom.isFull()) return "redirect:/";
+        httpSession.setAttribute(WebSocketSessionUtils.GAME_SESSION_KEY, id);
         return "gameRoom";
+//        model.addAttribute("room", gameRoom);
+//        model.addAttribute("member", new ObjectMapper().writeValueAsString(user));
     }
 
 }
