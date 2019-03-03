@@ -1,6 +1,5 @@
 package lasermaze.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
