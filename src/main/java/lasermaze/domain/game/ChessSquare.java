@@ -7,6 +7,7 @@ import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.properties.*;
 import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.game.user.UserDelimiter;
+import lasermaze.dto.PieceLineDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,5 +88,17 @@ public class ChessSquare {
             }
         }
         throw new NotSupportedException("cannot find laser piece");
+    }
+
+    public List<PieceLineDto> _toDto() {
+        List<PieceLineDto> pieceLines = new ArrayList<>();
+        for (List<Piece> chessSquare : chessSquares) {
+            PieceLineDto pieceLineDto = new PieceLineDto();
+            for (Piece piece : chessSquare) {
+                pieceLineDto.add(piece._toDto());
+            }
+            pieceLines.add(pieceLineDto);
+        }
+        return pieceLines;
     }
 }

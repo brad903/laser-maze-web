@@ -4,12 +4,16 @@
     <i class="material-icons">play_circle_filled</i>
 </button>
 
-<div class="content" data-room-id="{{room.id}}" data-member="{{member}}">
-    <ul class="chat_box">
-    </ul>
-    <input name="message">
-    <button class="send">보내기</button>
-</div>
+<table>
+{{# chessSquares }}
+    <tr>
+    {{# pieceDtos }}
+        <td width="40" height="40"> <img src="{{ imagePath }}" style="width:40; height:40;"/> </td>
+    {{/ pieceDtos }}
+    </tr>
+{{/ chessSquares }}
+</table>
+
 <script src="/webjars/jquery/dist/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>

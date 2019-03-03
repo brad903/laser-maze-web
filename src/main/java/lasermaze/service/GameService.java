@@ -23,7 +23,7 @@ public class GameService {
         return gameRoomRepository.getGameRoom(id);
     }
 
-//    public List<PieceLineDto> getPieceLineDtos() {
-//        new ChessSquare().pieceInit();
-//    }
+    public List<PieceLineDto> getPieceLineDtos() {
+        return new ChessSquare().pieceInit()._toDto();
+    }
 }

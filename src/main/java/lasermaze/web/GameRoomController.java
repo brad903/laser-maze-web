@@ -1,11 +1,7 @@
 package lasermaze.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.GameRoom;
-import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
-import lasermaze.security.HttpSessionUtils;
 import lasermaze.security.LoginUser;
 import lasermaze.service.GameService;
 import lasermaze.socket.WebSocketSessionUtils;
@@ -38,10 +34,11 @@ public class GameRoomController {
     }
 
     @GetMapping("/join/{id}")
-    public String join(@LoginUser User user, @PathVariable String id, HttpSession httpSession, Model model) throws JsonProcessingException {
+    public String join(@LoginUser User user, @PathVariable String id, HttpSession httpSession, Model model) {
         GameRoom gameRoom = gameService.getGameRoom(id);
         if (gameRoom.isFull()) return "redirect:/";
         httpSession.setAttribute(WebSocketSessionUtils.GAME_SESSION_KEY, id);
+        model.addAttribute("chessSquares", gameService.getPieceLineDtos());
         return "gameRoom";
     }
 
