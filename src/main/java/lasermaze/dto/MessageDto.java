@@ -1,4 +1,6 @@
-package lasermaze.domain;
+package lasermaze.dto;
+
+import lasermaze.domain.message.*;
 
 public class MessageDto {
 

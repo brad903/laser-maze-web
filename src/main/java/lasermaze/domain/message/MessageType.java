@@ -1,4 +1,4 @@
-package lasermaze.domain;
+package lasermaze.domain.message;
 
 public enum MessageType {
     READY,

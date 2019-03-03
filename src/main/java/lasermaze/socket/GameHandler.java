@@ -3,6 +3,8 @@ package lasermaze.socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.*;
+import lasermaze.domain.message.Message;
+import lasermaze.dto.MessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,6 @@ public class GameHandler extends TextWebSocketHandler {
         User user = WebSocketSessionUtils.getUserFromSocket(session);
 
         String payload = message.getPayload();
-        log.debug("Payload : {}", payload);
         MessageDto messageDto = new ObjectMapper().readValue(payload, MessageDto.class);
         Message parsedMessage = messageDto.createMessage();
 

@@ -1,5 +1,8 @@
-package lasermaze.domain;
+package lasermaze.domain.message;
 
+import lasermaze.domain.GameRoom;
+import lasermaze.domain.Player;
+import lasermaze.domain.User;
 import org.springframework.web.socket.WebSocketSession;
 
 public class JoinMessage implements Message {
