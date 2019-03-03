@@ -34,6 +34,10 @@ public class GameHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
+        Map<String,Object> map = session.getAttributes();
+        User userTest = (User)map.get(HttpSessionUtils.USER_SESSION_KEY);
+        log.debug("로그인 한 유저 : {}", userTest);
+
         String payload = message.getPayload();
         Map<String, Object> parsedMessage = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
 
