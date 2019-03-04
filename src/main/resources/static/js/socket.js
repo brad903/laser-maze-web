@@ -25,7 +25,7 @@ $(function () {
             if(content.messageObject != null) {
                 console.log(content);
                 executePlay(content.messageObject.commandMessage);
-                //shoot(content.messageObject.laserMovements[0]);
+                shoot(content.messageObject.laserMovements[0]);
             }
        }
 
@@ -62,34 +62,27 @@ function executePlay(data) {
 }
 
 function shoot(content) {
-    var i = 0;
-
-    function myLoop() {
+    content.forEach(function(data, index) {
+        console.log(index);
         setTimeout(function() {
-            var data = content[i];
-            var target = findTarget(data.row, data.col);
-            var source = target.attr('src');
-            target.attr('src', '');
-            target.css({'background-color' : 'blue'});
-            if(i < content.length) {
-                target.attr('src', source);
-                console.log("content.length" + content.length);
-                myLoop();
-            }
-        }, 3000);
-    }
+            moveLaserPointer(data);
+        }, 500);
+    });
 }
 
-function changeColor(data) {
-    console.log(data.row + " " + data.col);
+function moveLaserPointer(data) {
     var target = findTarget(data.row, data.col);
-    var source = target.attr('src');
-    target.attr('src', '');
-    target.css({'background-color' : 'blue'});
+    targetTop = Number(target.offset().top) - Number(target.attr('height'));
+    targetLeft = Number(target.offset().left) + Number((target.attr('width') / 2));
+
+    var laser = target.closest('.laserPointer');
+    laser.css('visibility', 'visible');
+    laser.css('top', targetTop);
+    laser.css('left', targetLeft);
 
     setTimeout(function() {
-        target.attr('src', source);
-    }, 5000);
+        laser.css('visibility', 'collapse');
+    }, 500);
 }
 
 function findTarget(row, col) {
@@ -148,6 +141,3 @@ function getRotationDegrees(obj) {
     } else { var angle = 0; }
     return (angle < 0) ? angle + 360 : angle;
 }
-
-
-

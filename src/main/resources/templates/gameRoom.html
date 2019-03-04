@@ -6,15 +6,16 @@
 <div id="squares" style="display:table; margin:auto;">
     <div id="left" style="float:left">
         <table id="chessSquares" style="width:440px; height:440px;">
-        {{# chessSquares }}
+            {{# chessSquares }}
             <tr>
-            {{# pieceDtos }}
-                <td value="{{@index}}">
-                    <img src="{{ imagePath }}" data-direction="{{ direction }}" class="square" width="50" height="50px" style="position:relative"/>
+                {{# pieceDtos }}
+                <td>
+                    <img src="{{ imagePath }}" data-direction="{{ direction }}" class="square" width="50" height="50" style="position:relative"/>
+                    <img src="/img/laser_pointer.png" width="20" height="20" class="laserPointer" style="visibility:collapse;position:absolute;"/>
                 </td>
-            {{/ pieceDtos }}
+                {{/ pieceDtos }}
             </tr>
-        {{/ chessSquares }}
+            {{/ chessSquares }}
         </table>
     </div>
     <div id="right" style="float:left;width:150px;margin-left:10px;">
