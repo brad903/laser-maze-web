@@ -1,7 +1,9 @@
 package lasermaze.domain.game;
 
+import lasermaze.domain.User;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
+import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.support.fixture.PieceFixture;
 import org.junit.Before;
@@ -51,5 +53,19 @@ public class GameTest {
         chessSquare.putPiece(new Point(4, 0), PieceFixture.createKing(UserDelimiter.WHITE, Direction.EAST, new Point(4, 0)));
         Board board = new Board(chessSquare);
         assertThat(game.getResult(board)).isEqualTo(GameResult.USER2);
+    }
+
+    @Test
+    public void getCurrentPlayer() {
+        Game game = new Game(new GameUser(UserDelimiter.BLACK, "doby"), new GameUser(UserDelimiter.WHITE, "brad"));
+        GameUser gameUser = game.getCurrentPlayer(new User("doby", "1234", "doby"));
+        assertThat(gameUser).isEqualTo(new GameUser(UserDelimiter.BLACK, "doby"));
+    }
+
+    @Test
+    public void getCurrentPlayer2() {
+        Game game = new Game(new GameUser(UserDelimiter.BLACK, "doby"), new GameUser(UserDelimiter.WHITE, "brad"));
+        GameUser gameUser = game.getCurrentPlayer(new User("brad", "1234", "brad"));
+        assertThat(gameUser).isEqualTo(new GameUser(UserDelimiter.WHITE, "brad"));
     }
 }

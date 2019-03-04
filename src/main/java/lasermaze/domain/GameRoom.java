@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lasermaze.domain.game.Game;
+import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.socket.MessageSendUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +20,19 @@ public class GameRoom {
     public static final int MAX_PLAYER_COUNT = 2;
     private String id;
     private String name;
-    private Set<Player> players = new HashSet<>();
+    private List<Player> players = new ArrayList<>();
+    private Game game;
 
     public static GameRoom create(String name) {
         GameRoom created = new GameRoom();
         created.id = UUID.randomUUID().toString();
         created.name = name;
         return created;
+    }
+
+    public void start() {
+        this.game = new Game(new GameUser(UserDelimiter.BLACK, players.get(0).getUserId())
+                        , new GameUser(UserDelimiter.WHITE, players.get(1).getUserId()));
     }
 
     public void join(Player player) {

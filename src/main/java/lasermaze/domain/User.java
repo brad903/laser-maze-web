@@ -83,6 +83,10 @@ public class User {
         return false;
     }
 
+    public boolean hasSameId(String userId) {
+        return userId.equals(this.userId);
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isGuestUser() {

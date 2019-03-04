@@ -1,5 +1,7 @@
 package lasermaze.domain.game.user;
 
+import lasermaze.domain.User;
+
 import java.util.Objects;
 
 public class GameUser {
@@ -7,9 +9,11 @@ public class GameUser {
 
     private UserDelimiter userDelimiter;
     private boolean isWinner;
+    private String userId;
 
-    public GameUser(UserDelimiter userDelimiter) {
+    public GameUser(UserDelimiter userDelimiter, String userId) {
         this.userDelimiter = userDelimiter;
+        this.userId = userId;
     }
 
     public boolean isDummyUser() {
@@ -20,9 +24,13 @@ public class GameUser {
         return this.userDelimiter.equals(userDelimiter);
     }
 
+    public boolean isSameUser(User user) {
+        return user.hasSameId(userId);
+    }
+
     private static class DummyGameUser extends GameUser {
         public DummyGameUser() {
-            super(UserDelimiter.DUMMY);
+            super(UserDelimiter.DUMMY, "");
         }
 
         @Override

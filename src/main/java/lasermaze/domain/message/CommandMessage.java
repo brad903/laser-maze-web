@@ -2,9 +2,15 @@ package lasermaze.domain.message;
 
 import lasermaze.domain.GameRoom;
 import lasermaze.domain.User;
+import lasermaze.domain.game.Command;
+import lasermaze.domain.game.piece.common.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketSession;
 
 public class CommandMessage implements Message {
+
+    private static final Logger log = LoggerFactory.getLogger(CommandMessage.class);
 
     private int row;
     private int col;
@@ -40,9 +46,13 @@ public class CommandMessage implements Message {
         this.commandNumber = commandNumber;
     }
 
+    public Command _toCommand() {
+        return new Command(new Point(row, col), commandNumber);
+    }
+
     @Override
     public void process(GameRoom gameRoom, User user, WebSocketSession session) {
-
+        log.debug("Row : {}, Col : {}, Command : {}, GameRoom : {}, User : {}", row, col, commandNumber, gameRoom, user);
     }
 
     @Override

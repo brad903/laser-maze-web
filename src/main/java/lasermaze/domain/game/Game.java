@@ -1,9 +1,11 @@
 package lasermaze.domain.game;
 
+import lasermaze.domain.User;
 import lasermaze.domain.game.piece.King;
 import lasermaze.domain.game.piece.Piece;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.message.CommandMessage;
 
 import static lasermaze.domain.game.ChessSquare.CHESSBOARD_SIZE;
 
@@ -19,27 +21,18 @@ public class Game {
         board = new Board(new ChessSquare().pieceInit());
     }
 
-    public void start() {
-        int turn = 0;
-        GameResult result = GameResult.NOT_DECIDED;
-        while (result == GameResult.NOT_DECIDED) {
-            int[] input = {4, 0, 3};
-
-            Command command = new Command(new Point(input[0], input[1]), input[2]);
-            command.execute(board, getCurrentPlayer(turn));
-            turn++;
-
-            result = getResult(this.board);
-        }
+    public GameResult execute(CommandMessage commandMessage, User user) {
+        commandMessage._toCommand().execute(board, getCurrentPlayer(user));
+        return getResult(this.board);
     }
 
     public GameResult getResult(Board board) {
         boolean user1King = hasKing(gameUser1, board);
         boolean user2King = hasKing(gameUser2, board);
 
-        if(user1King && user2King) return GameResult.NOT_DECIDED;
-        if(user1King) return GameResult.USER1;
-        if(user2King) return GameResult.USER2;
+        if (user1King && user2King) return GameResult.NOT_DECIDED;
+        if (user1King) return GameResult.USER1;
+        if (user2King) return GameResult.USER2;
         return GameResult.DRAW;
     }
 
@@ -47,7 +40,7 @@ public class Game {
         for (int i = 0; i < CHESSBOARD_SIZE; i++) {
             for (int j = 0; j < CHESSBOARD_SIZE; j++) {
                 Piece piece = board.getPiece(new Point(i, j));
-                if(piece instanceof King && piece.isSameUser(gameUser)) {
+                if (piece instanceof King && piece.isSameUser(gameUser)) {
                     return true;
                 }
             }
@@ -56,11 +49,10 @@ public class Game {
         return false;
     }
 
-    public GameUser getCurrentPlayer(int turn) {
-        if (turn % 2 == 0) return gameUser1;
+    public GameUser getCurrentPlayer(User user) {
+        if (gameUser1.isSameUser(user)) return gameUser1;
         return gameUser2;
     }
-
 
 }
 

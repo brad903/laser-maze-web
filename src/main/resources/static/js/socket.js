@@ -51,3 +51,11 @@ function printUsers(e) {
     $('#playerList').html(code);
     return cnt;
 }
+
+function sendCommand(row, col, commandNumber) {
+    console.log(row + " " + col + " " + direction);
+    sock.send(JSON.stringify({messageType: 'PLAY', row : row, col : col, commandNumber : commandNumber}));
+    sock.onmessage = function(e) {
+        console.log()
+    }
+}

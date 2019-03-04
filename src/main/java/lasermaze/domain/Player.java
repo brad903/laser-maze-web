@@ -65,4 +65,8 @@ public class Player {
                 ", ready=" + ready +
                 '}';
     }
+
+    public String getUserId() {
+        return user.getUserId();
+    }
 }
