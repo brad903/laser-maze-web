@@ -1,23 +1,51 @@
 {{#partial "content"}}
-<div id="playerList"> </div>
+<div id="playerList" style="display:table; margin:auto;"> </div>
 <button id="readyBtn" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
     <i class="material-icons">play_circle_filled</i>
 </button>
-
-<table>
-{{# chessSquares }}
-    <tr>
-    {{# pieceDtos }}
-        <td width="40" height="40"> <img src="{{ imagePath }}" style="width:40; height:40;"/> </td>
-    {{/ pieceDtos }}
-    </tr>
-{{/ chessSquares }}
-</table>
-
+<div id="squares" style="display:table; margin:auto;">
+    <div id="left" style="float:left">
+        <table>
+        {{# chessSquares }}
+            <tr>
+            {{# pieceDtos }}
+                <td>
+                    <img src="{{ imagePath }}" class="square" width="50" height="50px"/>
+                </td>
+            {{/ pieceDtos }}
+            </tr>
+        {{/ chessSquares }}
+        </table>
+    </div>
+    <div id="right" style="float:left">
+        <table style="visibility:hidden;" id="functions">
+            <tr> <td> <img src="/img/arrow/north.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/north_east.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/east.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/south_east.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/south.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/south_west.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/west.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/north_west.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/clockwise.png" width="40" height="40"/> </td> </tr>
+            <tr> <td> <img src="/img/arrow/counter_clockwise.png" width="40" height="40"/> </td> </tr>
+        </table>
+    </div>
+</div>
 <script src="/webjars/jquery/dist/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/js/socket.js"></script>
+<script type="text/javascript">
+$('.square').on('click', expandMenu);
+function expandMenu(e) {
+    if ($('#functions').css('visibility') == 'hidden'){
+        $('#functions').css('visibility', 'visible');
+    } else{
+        $('#functions').css('visibility', 'hidden');
+    }
+}
+</script>
 {{/partial}}
 
 {{> home }}
