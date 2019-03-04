@@ -32,6 +32,11 @@ $(function () {
        if(content.messageType == 'INFO') {
            alert(content.messageObject.errorMessage);
        }
+
+       if(content.messageType == 'DISCONNECTED') {
+           alert("상대편의 접속 불량으로 게임이 종료되었습니다!");
+           window.location.replace("/");
+       }
    }
 });
 

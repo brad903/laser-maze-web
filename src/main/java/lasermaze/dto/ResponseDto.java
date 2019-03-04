@@ -1,6 +1,7 @@
 package lasermaze.dto;
 
 import lasermaze.domain.message.MessageType;
+import org.springframework.web.socket.TextMessage;
 
 public class ResponseDto<T> {
     private MessageType messageType;

@@ -1,6 +1,5 @@
 package lasermaze.domain.message;
 
-import lasermaze.domain.game.Command;
 import lasermaze.domain.game.GameResult;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class ResultMessage {
     private GameResult gameResult;
 
     public ResultMessage() {
-
     }
 
     public ResultMessage(CommandMessage commandMessage, List<List<CommandMessage>> laserMovements, GameResult gameResult) {

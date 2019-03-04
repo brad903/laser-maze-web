@@ -21,11 +21,11 @@ public class CommonPlay implements Playable {
 
     @Override
     public void move(Point point, Direction direction) {
-        throw new NotSupportedException("This piece Can not move");
+        throw new NotSupportedException("해당 장기를 움직일 수 없습니다!");
     }
 
     @Override
     public Direction rotate(Direction direction, Rotation rotation) {
-        throw new NotSupportedException("This piece Can not rotate");
+        throw new NotSupportedException("해당 장기를 회전시킬 수 없습니다!");
     }
 }

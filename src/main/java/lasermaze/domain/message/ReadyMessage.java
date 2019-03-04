@@ -2,7 +2,6 @@ package lasermaze.domain.message;
 
 import lasermaze.domain.GameRoom;
 import lasermaze.domain.User;
-import lasermaze.domain.message.Message;
 import org.springframework.web.socket.WebSocketSession;
 
 public class ReadyMessage implements Message {

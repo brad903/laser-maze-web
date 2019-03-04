@@ -26,6 +26,9 @@ public class Command {
     public List<List<CommandMessage>> execute(Board board, GameUser gameUser) {
         Piece piece = board.getPiece(point);
 
+        if(!piece.isSameUser(gameUser)) {
+            throw new NotSupportedException("본인 장기만 움직이거나 회전시킬 수 있습니다!");
+        }
         int countOfDirection = Direction.values().length;
         if (commandNumber < countOfDirection) {
             move(board, piece);
@@ -41,7 +44,7 @@ public class Command {
     private void move(Board board, Piece piece) {
         Direction direction = Direction.getDirection(commandNumber);
         if(hasBarrier(point, direction) || hasObstacle(board, direction)) {
-            throw new NotSupportedException("Can not move Chess Piece");
+            throw new NotSupportedException("해당 장기를 움직일 수 없습니다!");
         }
         piece.move(direction);
         board.swap(point, direction);

@@ -1,8 +1,9 @@
 package lasermaze.socket;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lasermaze.domain.*;
+import lasermaze.domain.GameRoom;
+import lasermaze.domain.GameRoomRepository;
+import lasermaze.domain.User;
 import lasermaze.domain.message.Message;
 import lasermaze.dto.RequestDto;
 import org.slf4j.Logger;
@@ -16,7 +17,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
 public class GameHandler extends TextWebSocketHandler {
-
     private static final Logger log = LoggerFactory.getLogger(GameHandler.class);
 
     @Autowired
@@ -36,7 +36,6 @@ public class GameHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        log.debug("Session Remove");
-        roomRepository.removeGame(session);
+        roomRepository.removeSessionUser(session);
     }
 }

@@ -20,8 +20,11 @@ public class GameRoomRepository {
         return gameRooms.get(id);
     }
 
-    public void removeGame(WebSocketSession session) {
-        gameRooms.keySet().stream().forEach(key -> gameRooms.get(key).remove(session));
+    public void removeSessionUser(WebSocketSession session) {
+        for (String key : gameRooms.keySet()) {
+            gameRooms.get(key).remove(session);
+            if(gameRooms.get(key).isEmpty()) gameRooms.remove(key);
+        }
     }
 
     public List<GameRoom> getAllRooms() {

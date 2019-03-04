@@ -1,25 +1,21 @@
 package lasermaze.domain;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.game.Game;
-import lasermaze.domain.game.NotSupportedException;
 import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.domain.message.CommandMessage;
-import lasermaze.domain.message.InfoMessage;
 import lasermaze.domain.message.MessageType;
 import lasermaze.domain.message.ResultMessage;
 import lasermaze.dto.ResponseDto;
 import lasermaze.socket.MessageSendUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import sun.misc.MessageUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class GameRoom {
     private static final Logger log = LoggerFactory.getLogger(GameRoom.class);
@@ -39,26 +35,11 @@ public class GameRoom {
 
     public void start() {
         this.game = new Game(new GameUser(UserDelimiter.BLACK, players.get(0).getUserId())
-                        , new GameUser(UserDelimiter.WHITE, players.get(1).getUserId()));
+                , new GameUser(UserDelimiter.WHITE, players.get(1).getUserId()));
     }
 
-    public ResultMessage execute(CommandMessage commandMessage, User user) throws JsonProcessingException {
-        ResultMessage resultMessage = null;
-        try {
-            resultMessage = game.execute(commandMessage, user);
-        } catch (NotSupportedException e) {
-            MessageSendUtils.sendMessage(findErrorUser(user),
-                    new TextMessage(new ObjectMapper().writeValueAsString(new ResponseDto(MessageType.INFO, new InfoMessage(e.getMessage())))));
-        }
-        return resultMessage;
-    }
-
-    private WebSocketSession findErrorUser(User user) {
-        for (Player player : players) {
-            if(player.isSameUser(user))
-                return player.getWebSocketSession();
-        }
-        return null;
+    public ResultMessage execute(CommandMessage commandMessage, User user) {
+        return game.execute(commandMessage, user);
     }
 
     public void join(Player player) {
@@ -70,14 +51,7 @@ public class GameRoom {
     }
 
     public <T> void send(ResponseDto<T> responseDto) {
-        try {
-            TextMessage message = new TextMessage(new ObjectMapper().writeValueAsString(responseDto));
-            log.debug("TextMessage : {}", message);
-            players.stream()
-                    .forEach(player -> MessageSendUtils.sendMessage(player.getWebSocketSession(), message));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        players.stream().forEach(player -> MessageSendUtils.sendMessage(player.getWebSocketSession(), responseDto));
     }
 
     public void remove(WebSocketSession target) {
@@ -87,7 +61,11 @@ public class GameRoom {
 
         if (removablePlayer.isPresent()) {
             players.remove(removablePlayer.get());
-            sendPlayerList();
+            if (game != null) {
+                MessageSendUtils.sendMessage(players.get(0).getWebSocketSession(), new ResponseDto(MessageType.DISCONNECTED, null));
+                players.clear();
+            }
+            if (!players.isEmpty()) sendPlayerList();
         }
     }
 
@@ -109,6 +87,10 @@ public class GameRoom {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isEmpty() {
+        return players.isEmpty();
     }
 
     public boolean isFull() {

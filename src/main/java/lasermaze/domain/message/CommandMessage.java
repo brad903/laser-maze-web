@@ -1,18 +1,17 @@
 package lasermaze.domain.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lasermaze.domain.GameRoom;
-import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
 import lasermaze.domain.game.Command;
+import lasermaze.domain.game.NotSupportedException;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.dto.ResponseDto;
+import lasermaze.socket.MessageSendUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketSession;
 
 public class CommandMessage implements Message {
-
     private static final Logger log = LoggerFactory.getLogger(CommandMessage.class);
 
     private int row;
@@ -54,8 +53,12 @@ public class CommandMessage implements Message {
     }
 
     @Override
-    public void process(GameRoom gameRoom, User user, WebSocketSession session) throws JsonProcessingException {
-        gameRoom.send(new ResponseDto<>(MessageType.RESULT, gameRoom.execute(this, user)));
+    public void process(GameRoom gameRoom, User user, WebSocketSession session) {
+        try {
+            gameRoom.send(new ResponseDto<>(MessageType.RESULT, gameRoom.execute(this, user)));
+        } catch (NotSupportedException e) {
+            MessageSendUtils.sendMessage(session, new InfoMessage(e.getMessage())._toResponseDto());
+        }
     }
 
     @Override

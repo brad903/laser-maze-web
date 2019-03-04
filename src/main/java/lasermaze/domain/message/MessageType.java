@@ -5,5 +5,6 @@ public enum MessageType {
     JOIN,
     PLAY,
     RESULT,
-    INFO;
+    INFO,
+    DISCONNECTED;
 }

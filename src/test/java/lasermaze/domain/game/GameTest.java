@@ -1,6 +1,5 @@
 package lasermaze.domain.game;
 
-import lasermaze.domain.User;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.user.GameUser;
@@ -58,14 +57,7 @@ public class GameTest {
     @Test
     public void getCurrentPlayer() {
         Game game = new Game(new GameUser(UserDelimiter.BLACK, "doby"), new GameUser(UserDelimiter.WHITE, "brad"));
-        GameUser gameUser = game.getCurrentPlayer(new User("doby", "1234", "doby"));
+        GameUser gameUser = game.getCurrentPlayer();
         assertThat(gameUser).isEqualTo(new GameUser(UserDelimiter.BLACK, "doby"));
-    }
-
-    @Test
-    public void getCurrentPlayer2() {
-        Game game = new Game(new GameUser(UserDelimiter.BLACK, "doby"), new GameUser(UserDelimiter.WHITE, "brad"));
-        GameUser gameUser = game.getCurrentPlayer(new User("brad", "1234", "brad"));
-        assertThat(gameUser).isEqualTo(new GameUser(UserDelimiter.WHITE, "brad"));
     }
 }

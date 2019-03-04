@@ -1,17 +1,23 @@
 package lasermaze.domain.message;
 
+import lasermaze.dto.ResponseDto;
+
 public class InfoMessage {
-    private String errrorMessage;
+    private String ErrorMessage;
 
-    public InfoMessage(String errrorMessage) {
-        this.errrorMessage = errrorMessage;
+    public InfoMessage(String ErrorMessage) {
+        this.ErrorMessage = ErrorMessage;
     }
 
-    public String getErrrorMessage() {
-        return errrorMessage;
+    public String getErrorMessage() {
+        return ErrorMessage;
     }
 
-    public void setErrrorMessage(String errrorMessage) {
-        this.errrorMessage = errrorMessage;
+    public void setErrorMessage(String errorMessage) {
+        this.ErrorMessage = errorMessage;
+    }
+
+    public ResponseDto<InfoMessage> _toResponseDto() {
+        return new ResponseDto<>(MessageType.INFO, this);
     }
 }
