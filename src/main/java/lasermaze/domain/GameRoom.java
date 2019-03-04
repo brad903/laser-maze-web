@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.game.Game;
+import lasermaze.domain.game.NotSupportedException;
 import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.game.user.UserDelimiter;
 import lasermaze.domain.message.CommandMessage;
+import lasermaze.domain.message.InfoMessage;
 import lasermaze.domain.message.MessageType;
 import lasermaze.domain.message.ResultMessage;
 import lasermaze.dto.ResponseDto;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import sun.misc.MessageUtils;
 
 public class GameRoom {
     private static final Logger log = LoggerFactory.getLogger(GameRoom.class);
@@ -39,10 +42,23 @@ public class GameRoom {
                         , new GameUser(UserDelimiter.WHITE, players.get(1).getUserId()));
     }
 
-    public ResultMessage execute(CommandMessage commandMessage, User user) {
-        log.debug("commandMessage : {}", commandMessage);
-        log.debug("User : {}", user);
-        return game.execute(commandMessage, user);
+    public ResultMessage execute(CommandMessage commandMessage, User user) throws JsonProcessingException {
+        ResultMessage resultMessage = null;
+        try {
+            resultMessage = game.execute(commandMessage, user);
+        } catch (NotSupportedException e) {
+            MessageSendUtils.sendMessage(findErrorUser(user),
+                    new TextMessage(new ObjectMapper().writeValueAsString(new ResponseDto(MessageType.INFO, new InfoMessage(e.getMessage())))));
+        }
+        return resultMessage;
+    }
+
+    private WebSocketSession findErrorUser(User user) {
+        for (Player player : players) {
+            if(player.isSameUser(user))
+                return player.getWebSocketSession();
+        }
+        return null;
     }
 
     public void join(Player player) {

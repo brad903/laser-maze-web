@@ -25,9 +25,6 @@ public class Command {
 
     public List<List<CommandMessage>> execute(Board board, GameUser gameUser) {
         Piece piece = board.getPiece(point);
-        if(!piece.isSameUser(gameUser)) {
-            throw new NotSupportedException("this gameUser cannot control this piece");
-        }
 
         int countOfDirection = Direction.values().length;
         if (commandNumber < countOfDirection) {

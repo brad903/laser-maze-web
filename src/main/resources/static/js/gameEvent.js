@@ -19,7 +19,7 @@ function leadingZero(num) {
 }
 
 var col;
-var row_;
+var row;
 $(document).ready(function() {
     setInterval(timerOn, 1000);
 

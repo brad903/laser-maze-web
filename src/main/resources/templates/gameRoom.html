@@ -9,8 +9,8 @@
         {{# chessSquares }}
             <tr>
             {{# pieceDtos }}
-                <td>
-                    <img src="{{ imagePath }}" data-direction="{{ direction }}" class="square" width="50" height="50px"/>
+                <td value="{{@index}}">
+                    <img src="{{ imagePath }}" data-direction="{{ direction }}" class="square" width="50" height="50px" style="position:relative"/>
                 </td>
             {{/ pieceDtos }}
             </tr>
@@ -48,6 +48,7 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="/webjars/jquery/dist/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>

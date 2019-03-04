@@ -17,6 +17,7 @@ public class Game {
     private Board board;
     private GameUser gameUser1;
     private GameUser gameUser2;
+    private int countOfTurn;
 
     public Game(GameUser gameUser1, GameUser gameUser2) {
         this.gameUser1 = gameUser1;
@@ -25,7 +26,12 @@ public class Game {
     }
 
     public ResultMessage execute(CommandMessage commandMessage, User user) {
-        List<List<CommandMessage>> laserMovements = commandMessage._toCommand().execute(board, getCurrentPlayer(user));
+        GameUser thisTurnUser = getCurrentPlayer();
+        if(!thisTurnUser.isSameUser(user)) {
+            throw new NotSupportedException("본인 턴에서만 게임이 가능합니다.");
+        }
+        List<List<CommandMessage>> laserMovements = commandMessage._toCommand().execute(board, thisTurnUser);
+        countOfTurn++;
         return new ResultMessage(commandMessage, laserMovements, getResult(this.board));
     }
 
@@ -52,10 +58,9 @@ public class Game {
         return false;
     }
 
-    public GameUser getCurrentPlayer(User user) {
-        if (gameUser1.isSameUser(user)) return gameUser1;
+    public GameUser getCurrentPlayer() {
+        if(countOfTurn % 2 == 0) return gameUser1;
         return gameUser2;
     }
-
 }
 

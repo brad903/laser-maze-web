@@ -41,4 +41,8 @@ public class ResultMessage {
     public void setGameResult(GameResult gameResult) {
         this.gameResult = gameResult;
     }
+
+    public CommandMessage getCommandMessage() {
+        return commandMessage;
+    }
 }

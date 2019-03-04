@@ -1,5 +1,6 @@
 package lasermaze.domain.message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lasermaze.domain.GameRoom;
 import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
@@ -53,7 +54,7 @@ public class CommandMessage implements Message {
     }
 
     @Override
-    public void process(GameRoom gameRoom, User user, WebSocketSession session) {
+    public void process(GameRoom gameRoom, User user, WebSocketSession session) throws JsonProcessingException {
         gameRoom.send(new ResponseDto<>(MessageType.RESULT, gameRoom.execute(this, user)));
     }
 
