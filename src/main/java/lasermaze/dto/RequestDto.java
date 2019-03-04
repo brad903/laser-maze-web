@@ -2,14 +2,14 @@ package lasermaze.dto;
 
 import lasermaze.domain.message.*;
 
-public class MessageDto {
+public class RequestDto {
 
     private MessageType messageType;
     private int row;
     private int col;
     private int commandNumber;
 
-    public MessageDto() {
+    public RequestDto() {
     }
 
     public MessageType getMessageType() {

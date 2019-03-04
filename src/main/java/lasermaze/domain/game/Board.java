@@ -5,6 +5,7 @@ import lasermaze.domain.game.piece.Splitter;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.message.CommandMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,21 +21,30 @@ public class Board {
         this.chessSquare = chessSquare;
     }
 
-    public void shoot(GameUser gameUser) {
+    public List<List<CommandMessage>> shoot(GameUser gameUser) {
         List<LaserPointer> lasers = new ArrayList<>();
         LaserPointer laserPointer = chessSquare.getLaser(gameUser).generateLaserPointer();
         lasers.add(laserPointer);
 
+        List<List<CommandMessage>> movements = new ArrayList<>();
+
         for (int i = 0; i < lasers.size(); i++) {
-            LaserPointer currentPointer = move(lasers, i);
-            if(currentPointer.isEnd()) deletePiece(lasers.get(i));
+            List<CommandMessage> aMovements = new ArrayList<>();
+            LaserPointer currentPointer = move(lasers, i, aMovements);
+
+            if (currentPointer.isEnd()) deletePiece(lasers.get(i));
+            movements.add(aMovements);
         }
+
+        return movements;
     }
 
-    public LaserPointer move(List<LaserPointer> lasers, int index) {
+    public LaserPointer move(List<LaserPointer> lasers, int index, List<CommandMessage> aMovements) {
         LaserPointer laserPointer = lasers.get(index);
-        while(!laserPointer.isEnd() && !laserPointer.getNextPoint().isOutOfBound()) {
+        while (!laserPointer.isEnd() && !laserPointer.getNextPoint().isOutOfBound()) {
             laserPointer.move();
+            laserPointer.putCommandMessage(aMovements);
+
             log.debug("pointer : {}", laserPointer.getPoint());
 
             Piece nextPiece = getPiece(laserPointer.getPoint());

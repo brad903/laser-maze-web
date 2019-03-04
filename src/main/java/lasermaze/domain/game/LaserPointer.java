@@ -3,8 +3,10 @@ package lasermaze.domain.game;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.common.Rotation;
+import lasermaze.domain.message.CommandMessage;
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.Objects;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -59,6 +61,14 @@ public class LaserPointer {
 
     public Point getNextPoint() {
         return point.getNextPoint(direction);
+    }
+
+    public void putCommandMessage(List<CommandMessage> aMovement) {
+        aMovement.add(new CommandMessage(point.getRow(), point.getCol(), direction.getDirectionNumber()));
+        if(point.getNextPoint(direction).isOutOfBound()) {
+            Point nextPoint = point.getNextPoint(direction);
+            aMovement.add(new CommandMessage(nextPoint.getRow(), nextPoint.getCol(), direction.getDirectionNumber()));
+        }
     }
 
     @Override

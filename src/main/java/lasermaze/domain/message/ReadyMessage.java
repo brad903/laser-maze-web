@@ -11,8 +11,7 @@ public class ReadyMessage implements Message {
         gameRoom.getPlayer(user).pushReady();
         gameRoom.sendPlayerList();
         if (gameRoom.isAllReady()) {
-            // 체스말과 사용자 연결
-            //
+            gameRoom.start();
         }
     }
 }

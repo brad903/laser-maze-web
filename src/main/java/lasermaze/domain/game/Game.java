@@ -6,6 +6,9 @@ import lasermaze.domain.game.piece.Piece;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.message.CommandMessage;
+import lasermaze.domain.message.ResultMessage;
+
+import java.util.List;
 
 import static lasermaze.domain.game.ChessSquare.CHESSBOARD_SIZE;
 
@@ -21,9 +24,9 @@ public class Game {
         board = new Board(new ChessSquare().pieceInit());
     }
 
-    public GameResult execute(CommandMessage commandMessage, User user) {
-        commandMessage._toCommand().execute(board, getCurrentPlayer(user));
-        return getResult(this.board);
+    public ResultMessage execute(CommandMessage commandMessage, User user) {
+        List<List<CommandMessage>> laserMovements = commandMessage._toCommand().execute(board, getCurrentPlayer(user));
+        return new ResultMessage(commandMessage, laserMovements, getResult(this.board));
     }
 
     public GameResult getResult(Board board) {

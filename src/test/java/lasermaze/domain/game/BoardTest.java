@@ -6,18 +6,23 @@ import lasermaze.domain.game.piece.Laser;
 import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.user.UserDelimiter;
+import lasermaze.domain.message.CommandMessage;
 import lasermaze.support.fixture.BoardFixture;
 import lasermaze.support.fixture.LaserPointerFixture;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static lasermaze.domain.game.user.UserTest.DOBY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {
+    private static final Logger log = LoggerFactory.getLogger(BoardTest.class);
 
     private Board board;
     private ChessSquare chessSquare;
@@ -112,7 +117,8 @@ public class BoardTest {
         BoardFixture.putTriangleNight(chessSquare, Direction.SOUTHEAST, new Point(4, 3));
         List<LaserPointer> lasers = new ArrayList<>();
         lasers.add(new LaserPointer(Direction.EAST, new Point(7, 0)));
-        assertThat(board.move(lasers, 0)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 3)));
+        List<CommandMessage> aMovements = new ArrayList<>();
+        assertThat(board.move(lasers, 0, aMovements)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 3)));
     }
 
     @Test
@@ -126,8 +132,10 @@ public class BoardTest {
         List<LaserPointer> lasers = new ArrayList<>();
         lasers.add(new LaserPointer(Direction.EAST, new Point(7, 0)));
 
-        assertThat(board.move(lasers, 0)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 3)));
-        assertThat(board.move(lasers, 1)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 7)));
+        List<CommandMessage> aMovements = new ArrayList<>();
+        List<CommandMessage> aMovements2 = new ArrayList<>();
+        assertThat(board.move(lasers, 0, aMovements)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 3)));
+        assertThat(board.move(lasers, 1, aMovements2)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 7)));
     }
 
     @Test
@@ -140,9 +148,16 @@ public class BoardTest {
         BoardFixture.putSquareNight(chessSquare, Direction.WEST, new Point(4, 7));
         List<LaserPointer> lasers = new ArrayList<>();
         lasers.add(new LaserPointer(Direction.SOUTH, new Point(0, 7)));
-        assertThat(board.move(lasers, 0)).isEqualTo(new LaserPointer(Direction.NORTH, new Point(0, 4)));
-        assertThat(board.move(lasers, 1)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 4)));
-        assertThat(board.move(lasers, 2)).isEqualTo(new LaserPointer(Direction.NORTH, new Point(0, 7)));
+        List<List<CommandMessage>> commandMessages = new ArrayList<>();
+        List<CommandMessage> aMovements = new ArrayList<>();
+        List<CommandMessage> aMovements2 = new ArrayList<>();
+        List<CommandMessage> aMovements3 = new ArrayList<>();
+        commandMessages.add(aMovements);
+        commandMessages.add(aMovements2);
+        commandMessages.add(aMovements3);
+        assertThat(board.move(lasers, 0, aMovements)).isEqualTo(new LaserPointer(Direction.NORTH, new Point(0, 4)));
+        assertThat(board.move(lasers, 1, aMovements2)).isEqualTo(new LaserPointer(Direction.SOUTH, new Point(7, 4)));
+        assertThat(board.move(lasers, 2, aMovements3)).isEqualTo(new LaserPointer(Direction.NORTH, new Point(0, 7)));
         assertThat(board.getPiece(new Point(0, 7)) instanceof Laser).isTrue();
     }
 

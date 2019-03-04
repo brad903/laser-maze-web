@@ -1,9 +1,11 @@
 package lasermaze.domain.message;
 
 import lasermaze.domain.GameRoom;
+import lasermaze.domain.GameRoomRepository;
 import lasermaze.domain.User;
 import lasermaze.domain.game.Command;
 import lasermaze.domain.game.piece.common.Point;
+import lasermaze.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketSession;
@@ -52,7 +54,7 @@ public class CommandMessage implements Message {
 
     @Override
     public void process(GameRoom gameRoom, User user, WebSocketSession session) {
-        log.debug("Row : {}, Col : {}, Command : {}, GameRoom : {}, User : {}", row, col, commandNumber, gameRoom, user);
+        gameRoom.send(new ResponseDto<>(MessageType.RESULT, gameRoom.execute(this, user)));
     }
 
     @Override

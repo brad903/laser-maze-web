@@ -5,7 +5,10 @@ import lasermaze.domain.game.piece.common.Direction;
 import lasermaze.domain.game.piece.common.Point;
 import lasermaze.domain.game.piece.common.Rotation;
 import lasermaze.domain.game.user.GameUser;
+import lasermaze.domain.message.CommandMessage;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -20,7 +23,7 @@ public class Command {
         this.commandNumber = commandNumber;
     }
 
-    public void execute(Board board, GameUser gameUser) {
+    public List<List<CommandMessage>> execute(Board board, GameUser gameUser) {
         Piece piece = board.getPiece(point);
         if(!piece.isSameUser(gameUser)) {
             throw new NotSupportedException("this gameUser cannot control this piece");
@@ -35,7 +38,7 @@ public class Command {
             piece.rotate(Rotation.getRotation(commandNumber));
         }
 
-        board.shoot(gameUser);
+        return board.shoot(gameUser);
     }
 
     private void move(Board board, Piece piece) {

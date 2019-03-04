@@ -4,7 +4,7 @@ package lasermaze.socket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.*;
 import lasermaze.domain.message.Message;
-import lasermaze.dto.MessageDto;
+import lasermaze.dto.RequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,11 @@ public class GameHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
         GameRoom gameRoom = roomRepository.getGameRoom(WebSocketSessionUtils.getGameRoomIdFromSocket(session));
         User user = WebSocketSessionUtils.getUserFromSocket(session);
 
         String payload = message.getPayload();
-        MessageDto messageDto = new ObjectMapper().readValue(payload, MessageDto.class);
+        RequestDto messageDto = new ObjectMapper().readValue(payload, RequestDto.class);
         Message parsedMessage = messageDto.createMessage();
 
         parsedMessage.process(gameRoom, user, session);

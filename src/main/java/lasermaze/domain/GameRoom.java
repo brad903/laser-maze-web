@@ -8,6 +8,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lasermaze.domain.game.Game;
 import lasermaze.domain.game.user.GameUser;
 import lasermaze.domain.game.user.UserDelimiter;
+import lasermaze.domain.message.CommandMessage;
+import lasermaze.domain.message.MessageType;
+import lasermaze.domain.message.ResultMessage;
+import lasermaze.dto.ResponseDto;
 import lasermaze.socket.MessageSendUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,18 +39,25 @@ public class GameRoom {
                         , new GameUser(UserDelimiter.WHITE, players.get(1).getUserId()));
     }
 
+    public ResultMessage execute(CommandMessage commandMessage, User user) {
+        log.debug("commandMessage : {}", commandMessage);
+        log.debug("User : {}", user);
+        return game.execute(commandMessage, user);
+    }
+
     public void join(Player player) {
         players.add(player);
     }
 
     public void sendPlayerList() {
-        send(players);
+        send(new ResponseDto(MessageType.READY, players));
     }
 
-    public <T> void send(T messageObject) {
+    public <T> void send(ResponseDto<T> responseDto) {
         try {
-            TextMessage message = new TextMessage(new ObjectMapper().writeValueAsString(messageObject));
-            players.parallelStream()
+            TextMessage message = new TextMessage(new ObjectMapper().writeValueAsString(responseDto));
+            log.debug("TextMessage : {}", message);
+            players.stream()
                     .forEach(player -> MessageSendUtils.sendMessage(player.getWebSocketSession(), message));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage(), e);
