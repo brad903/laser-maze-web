@@ -59,7 +59,7 @@ public abstract class Piece implements Pieceable, Cloneable {
     }
 
     public PieceDto _toDto() {
-        return new PieceDto(direction.toString(), imagePath.getImagePath());
+        return new PieceDto(direction.getDirectionNumber(), imagePath.getImagePath());
     }
 
     @Override

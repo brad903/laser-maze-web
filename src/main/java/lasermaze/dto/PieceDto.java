@@ -1,22 +1,22 @@
 package lasermaze.dto;
 
 public class PieceDto {
-    private String direction;
+    private int direction;
     private String imagePath;
 
     public PieceDto() {
     }
 
-    public PieceDto(String direction, String imagePath) {
+    public PieceDto(int direction, String imagePath) {
         this.direction = direction;
         this.imagePath = imagePath;
     }
 
-    public String getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 

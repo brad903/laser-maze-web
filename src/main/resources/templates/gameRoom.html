@@ -1,50 +1,100 @@
 {{#partial "content"}}
-<div id="playerList" style="display:table; margin:auto;"> </div>
+<div id="playerList" style="display:table; margin:auto;width:600px;border:solid 1px black;"> </div>
 <button id="readyBtn" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
     <i class="material-icons">play_circle_filled</i>
 </button>
 <div id="squares" style="display:table; margin:auto;">
     <div id="left" style="float:left">
-        <table>
+        <table id="chessSquares" style="width:440px; height:440px;">
         {{# chessSquares }}
             <tr>
             {{# pieceDtos }}
                 <td>
-                    <img src="{{ imagePath }}" class="square" width="50" height="50px"/>
+                    <img src="{{ imagePath }}" data-direction="{{ direction }}" class="square" width="50" height="50px"/>
                 </td>
             {{/ pieceDtos }}
             </tr>
         {{/ chessSquares }}
         </table>
     </div>
-    <div id="right" style="float:left">
-        <table style="visibility:hidden;" id="functions">
-            <tr> <td> <img src="/img/arrow/north.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/north_east.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/east.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/south_east.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/south.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/south_west.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/west.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/north_west.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/clockwise.png" width="40" height="40"/> </td> </tr>
-            <tr> <td> <img src="/img/arrow/counter_clockwise.png" width="40" height="40"/> </td> </tr>
-        </table>
+    <div id="right" style="float:left;width:150px;margin-left:10px;">
+        <div style="width:150px;height:100px;text-align:center;background-color:black;">
+            <font color="white"> <h1 id="timer"> timer </h1> </font>
+        </div>
+        <div style="width:150px;height:328px;border:solid 1px black;margin-top:10px">
+            <table style="visibility:hidden;width:150px;" class="play move">
+                <tr>
+                    <td> <img src="/img/arrow/north_west.png" width="40" height="40" data-value="8" class=""/> </td>
+                    <td> <img src="/img/arrow/north.png" width="40" height="40" data-value="1"/> </td>
+                    <td> <img src="/img/arrow/north_east.png" width="40" height="40" data-value="2"/> </td>
+                </tr>
+                <tr>
+                    <td> <img src="/img/arrow/west.png" width="40" height="40" data-value="7"/> </td>
+                    <td align="center"> <h5>이동</h5> </td>
+                    <td> <img src="/img/arrow/east.png" width="40" height="40" data-value="3"/> </td>
+                </tr>
+                <tr>
+                    <td> <img src="/img/arrow/south_west.png" width="40" height="40" data-value="6"/> </td>
+                    <td> <img src="/img/arrow/south.png" width="40" height="40" data-value="5"/> </td>
+                    <td> <img src="/img/arrow/south_east.png" width="40" height="40" data-value="4"/> </td>
+                </tr>
+            </table>
+            <br> <br>
+            <table style="visibility:hidden;;width:150px" class="play rotate">
+                <tr> <td align="center"> <img src="/img/arrow/clockwise.png" width="40" height="40" data-value="9"/> </td> </tr>
+                <tr> <td align="center"> 회전 </td></tr>
+                <tr> <td align="center"> <img src="/img/arrow/counter_clockwise.png" width="40" height="40" data-value="10"/> </td> </tr>
+            </table>
+        </div>
     </div>
 </div>
 <script src="/webjars/jquery/dist/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/jQueryRotate.js"></script>
 <script src="/js/socket.js"></script>
 <script type="text/javascript">
 $('.square').on('click', expandMenu);
 function expandMenu(e) {
-    if ($('#functions').css('visibility') == 'hidden'){
-        $('#functions').css('visibility', 'visible');
+    if ($('.play').css('visibility') == 'hidden'){
+        $('.play').css('visibility', 'visible');
+        $('.play').closest('td').css('background-color', 'red');
     } else{
-        $('#functions').css('visibility', 'hidden');
+        $('.play').css('visibility', 'hidden');
     }
 }
+
+var time = 120;
+function timerOn() {
+    timer = leadingZero(parseInt(Number(time) / 60)) + ' : ' + leadingZero(Number(time) % 60);
+    $('#timer').html('<h1>' + timer + '</h1>');
+    time -= 1;
+    console.log(timer);
+}
+
+function leadingZero(num) {
+    return num < 10 ? ('0' + num) : num;
+}
+
+var column_num;
+var row_num;
+$(document).ready(function() {
+    console.log('call')
+    setInterval(timerOn, 1000);
+
+   $("#chessSquares td").click(function() {
+       column_num = parseInt( $(this).index());
+       row_num = parseInt( $(this).parent().index() );
+   });
+
+   $(".play td img").click(function() {
+       // $(this).data('value')
+       console.log($(this).data('value'));
+   });
+
+});
+
+
 </script>
 {{/partial}}
 

@@ -27,6 +27,15 @@ $(function () {
     });
 });
 
+$('#chessSquares tr').find('img').each(function() {
+     var direction = $(this).data('direction');
+     var operator = Math.floor(((direction - 1) + 1) / 2);
+     console.log(operator);
+     var angle = 0;
+     angle = 90 * operator;
+      $(this).rotate(angle);
+});
+
 function printUsers(e) {
     var content = JSON.parse(e.data);
     var code = "";
