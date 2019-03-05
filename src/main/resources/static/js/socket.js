@@ -21,19 +21,21 @@ $(function () {
           }
        }
 
-       if(content.messageType == 'RESULT') {
+       if(content.messageType === 'RESULT') {
             if(content.messageObject != null) {
                 console.log(content);
                 executePlay(content.messageObject.commandMessage);
-                shoot(content.messageObject.laserMovements[0]);
+                content.messageObject.laserMovements.forEach(function(data, index) {
+                    shoot(data);
+                });
             }
        }
 
-       if(content.messageType == 'INFO') {
+       if(content.messageType === 'INFO') {
            alert(content.messageObject.errorMessage);
        }
 
-       if(content.messageType == 'DISCONNECTED') {
+       if(content.messageType === 'DISCONNECTED') {
            alert("상대편의 접속 불량으로 게임이 종료되었습니다!");
            window.location.replace("/");
        }
@@ -67,7 +69,18 @@ function shoot(content) {
         setTimeout(function() {
             moveLaserPointer(data);
         }, 500);
+
+        if(content.length - 1 === index) {
+            if(!(isOutOfBound(data.row) || isOutOfBound(data.col))) {
+                var target = findTarget(data.row, data.col);
+                target.attr('src', '/img/pieces/dummy.png');
+            }
+        }
     });
+}
+
+function isOutOfBound(num) {
+    return num >= 8 || num < 0;
 }
 
 function moveLaserPointer(data) {
