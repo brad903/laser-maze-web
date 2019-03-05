@@ -65,15 +65,23 @@ function executePlay(data) {
 
 function shoot(content) {
     content.forEach(function(data, index) {
-        console.log(index);
         setTimeout(function() {
             moveLaserPointer(data);
         }, 500);
 
+        console.log(index);
         if(content.length - 1 === index) {
+            console.log(data);
             if(!(isOutOfBound(data.row) || isOutOfBound(data.col))) {
                 var target = findTarget(data.row, data.col);
                 target.attr('src', '/img/pieces/dummy.png');
+            } else {
+                var commandMessage = content[index - 1];
+                var king = findTarget(commandMessage.row, commandMessage.col);
+                console.log(king);
+                if(king.attr('src').includes("king.png")) {
+                     king.attr('src', '/img/pieces/dummy.png');
+                }
             }
         }
     });
