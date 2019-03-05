@@ -28,6 +28,20 @@ $(function () {
                 content.messageObject.laserMovements.forEach(function(data, index) {
                     shoot(data);
                 });
+                var winner = content.messageObject.gameResult;
+                if(winner !== 'NOT_DECIDED') {
+                    if(winner === 'USER1') {
+                        alert($('#user0').data('username') + '님이 이겼습니다');
+                    }
+                    if(winner === 'USER2') {
+                        alert($('#user1').data('username') + '님이 이겼습니다');
+                    }
+                    if(winner === 'DRAW') {
+                        alert('무승부입니다!');
+                    }
+                    sock.send(JSON.stringify({messageType: 'TERMINATE'}));
+                    window.location.replace("/");
+                }
             }
        }
 
@@ -141,7 +155,8 @@ function printUsers(content) {
             cnt++;
             readyStatus = '준비 완료';
         }
-        code += ('<h4> ' +  data.user.name  + '  -  ' + readyStatus + '</h4>')
+        code += ('<h4 data-username="' + data.user.name + '" id="user' + index + '">'
+                       +  data.user.name  + '  -  ' + readyStatus + '</h4>')
     });
     $('#playerList').html(code);
     return cnt;

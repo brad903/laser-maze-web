@@ -29,6 +29,10 @@ public class GameHandler extends TextWebSocketHandler {
 
         String payload = message.getPayload();
         RequestDto messageDto = new ObjectMapper().readValue(payload, RequestDto.class);
+        if(messageDto.isTerminated()) {
+            roomRepository.removeSessionUser(session);
+            return;
+        }
         Message parsedMessage = messageDto.createMessage();
 
         parsedMessage.process(gameRoom, user, session);

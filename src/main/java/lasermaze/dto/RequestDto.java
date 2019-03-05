@@ -50,4 +50,8 @@ public class RequestDto {
         if(messageType == MessageType.PLAY) return new CommandMessage(row, col, commandNumber);
         throw new IllegalArgumentException();
     }
+
+    public boolean isTerminated() {
+        return messageType.equals(MessageType.TERMINATE);
+    }
 }
