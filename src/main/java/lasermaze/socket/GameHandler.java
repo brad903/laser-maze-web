@@ -20,6 +20,9 @@ public class GameHandler extends TextWebSocketHandler {
     private static final Logger log = LoggerFactory.getLogger(GameHandler.class);
 
     @Autowired
+    private GameControllerMappingHandler gameControllerMappingHandler;
+
+    @Autowired
     private GameRoomRepository roomRepository;
 
     @Override
