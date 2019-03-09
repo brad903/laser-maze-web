@@ -40,6 +40,11 @@ public class MessageType {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(Path, Method);
+    }
+
+    @Override
     public String toString() {
         return "MessageType{" +
                 "Path='" + Path + '\'' +
