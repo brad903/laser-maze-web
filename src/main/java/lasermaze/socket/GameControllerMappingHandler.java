@@ -4,6 +4,7 @@ import lasermaze.SocketController;
 import lasermaze.dto.MessageDto;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +21,9 @@ public class GameControllerMappingHandler {
     private static final Logger log = getLogger(GameControllerMappingHandler.class);
 
     public static final String ROOT_PACKAGE = "lasermaze";
+
+    @Autowired
+    private ParameterBinder parameterBinder;
 
     private static final Map<MessageType, Method> mapper = new HashMap<>();
 
@@ -50,7 +54,8 @@ public class GameControllerMappingHandler {
 
     public void invoke(MessageDto messageDto) throws Exception {
         Method method = mapper.get(messageDto.getMessageType());
+        Object[] args = parameterBinder.bind(method, messageDto);
         Object clazz = method.getDeclaringClass().newInstance();
-        method.invoke(clazz);
+        method.invoke(clazz, args);
     }
 }
