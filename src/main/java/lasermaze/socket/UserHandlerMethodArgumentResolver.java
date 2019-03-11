@@ -2,8 +2,10 @@ package lasermaze.socket;
 
 import lasermaze.domain.User;
 import lasermaze.dto.MessageDto;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
+@Component
 public class UserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override

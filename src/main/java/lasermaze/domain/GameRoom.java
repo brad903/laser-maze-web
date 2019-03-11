@@ -100,4 +100,14 @@ public class GameRoom {
     public boolean isAllReady() {
         return players.parallelStream().filter(player -> player.isReady()).count() == MAX_PLAYER_COUNT;
     }
+
+    @Override
+    public String toString() {
+        return "GameRoom{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", players=" + players +
+                ", game=" + game +
+                '}';
+    }
 }

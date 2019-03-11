@@ -2,6 +2,7 @@ package lasermaze.socket;
 
 import lasermaze.dto.MessageDto;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -14,10 +15,17 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ParameterBinder {
     private static final Logger log = getLogger(ParameterBinder.class);
 
-    private static final List<HandlerMethodArgumentResolver> methodArgumentResolvers = new ArrayList<>();
+    private final List<HandlerMethodArgumentResolver> methodArgumentResolvers = new ArrayList<>();
 
-    static {
+    @Autowired
+    private UserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver;
+
+    @Autowired
+    private GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver;
+
+    public ParameterBinder() {
         methodArgumentResolvers.add(new UserHandlerMethodArgumentResolver());
+        methodArgumentResolvers.add(new GameRoomHandlerMethodArgumentResolver());
     }
 
     public Object[] bind(Method method, MessageDto messageDto) throws Exception {

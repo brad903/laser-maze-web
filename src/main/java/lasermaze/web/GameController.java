@@ -23,5 +23,6 @@ public class GameController {
     public void joinRoom(GameRoom gameRoom, User user) {
         log.debug("invoke 성공!");
         log.debug("user : {}", user);
+        log.debug("gameRoom : {}", gameRoom);
     }
 }

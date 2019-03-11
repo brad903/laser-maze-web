@@ -39,7 +39,9 @@ dependencies {
     runtime('com.h2database:h2')
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1')
+    
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testCompile('org.assertj:assertj-core:3.10.0')
     testCompile('junit:junit:4.12')
 }
