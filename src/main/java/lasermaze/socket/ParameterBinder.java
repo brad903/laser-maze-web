@@ -24,14 +24,17 @@ public class ParameterBinder {
         Object[] args = new Object[method.getParameterCount()];
         Class<?>[] types = method.getParameterTypes();
         for (int i = 0; i < args.length; i++) {
-            args[i] = types[i].newInstance();
-            log.debug(types[i].getName());
-            for (HandlerMethodArgumentResolver methodArgumentResolver : methodArgumentResolvers) {
-                if (methodArgumentResolver.supportsParameter(types[i])) {
-                    args[i] = methodArgumentResolver.resolveArgument(messageDto);
-                }
-            }
+            args[i] = getInstance(messageDto, types[i]);
         }
         return args;
+    }
+
+    private Object getInstance(MessageDto messageDto, Class<?> type) throws Exception {
+        for (HandlerMethodArgumentResolver methodArgumentResolver : methodArgumentResolvers) {
+            if (methodArgumentResolver.supportsParameter(type)) {
+                return methodArgumentResolver.resolveArgument(messageDto);
+            }
+        }
+        return type.newInstance();
     }
 }
