@@ -18,14 +18,10 @@ public class ParameterBinder {
     private final List<HandlerMethodArgumentResolver> methodArgumentResolvers = new ArrayList<>();
 
     @Autowired
-    private UserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver;
-
-    @Autowired
-    private GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver;
-
-    public ParameterBinder() {
-        methodArgumentResolvers.add(new UserHandlerMethodArgumentResolver());
-        methodArgumentResolvers.add(new GameRoomHandlerMethodArgumentResolver());
+    public ParameterBinder(UserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver,
+                           GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver) {
+        methodArgumentResolvers.add(userHandlerMethodArgumentResolver);
+        methodArgumentResolvers.add(gameRoomHandlerMethodArgumentResolver);
     }
 
     public Object[] bind(Method method, MessageDto messageDto) throws Exception {
