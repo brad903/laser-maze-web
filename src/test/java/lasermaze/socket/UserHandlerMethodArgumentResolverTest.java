@@ -2,14 +2,14 @@ package lasermaze.socket;
 
 import lasermaze.domain.User;
 import lasermaze.dto.MessageDto;
-import lasermaze.support.test.BasicAuthAcceptanceTest;
+import lasermaze.support.test.WebSocketSessionTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class UserHandlerMethodArgumentResolverTest extends BasicAuthAcceptanceTest {
+public class UserHandlerMethodArgumentResolverTest extends WebSocketSessionTest {
 
     @Autowired
     private UserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver;

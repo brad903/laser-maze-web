@@ -2,13 +2,13 @@ package lasermaze.socket;
 
 import lasermaze.domain.GameRoom;
 import lasermaze.dto.MessageDto;
-import lasermaze.support.test.BasicAuthAcceptanceTest;
+import lasermaze.support.test.WebSocketSessionTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GameRoomHandlerMethodArgumentResolverTest extends BasicAuthAcceptanceTest {
+public class GameRoomHandlerMethodArgumentResolverTest extends WebSocketSessionTest {
 
     @Autowired
     private GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver;

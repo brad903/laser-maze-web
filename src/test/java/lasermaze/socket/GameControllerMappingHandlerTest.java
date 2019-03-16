@@ -1,7 +1,7 @@
 package lasermaze.socket;
 
 import lasermaze.dto.MessageDto;
-import lasermaze.support.test.BasicAuthAcceptanceTest;
+import lasermaze.support.test.WebSocketSessionTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class GameControllerMappingHandlerTest extends BasicAuthAcceptanceTest {
+public class GameControllerMappingHandlerTest extends WebSocketSessionTest {
     private static final Logger log = getLogger(GameControllerMappingHandlerTest.class);
 
     @Autowired
