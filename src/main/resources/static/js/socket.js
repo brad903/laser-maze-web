@@ -3,7 +3,7 @@ var sock;
 $(function () {
     sock = new SockJS("/ws/laser-maze");
     sock.onopen = function () {
-        sock.send(JSON.stringify({messageType: 'JOIN'}));
+        sock.send(JSON.stringify({path: '/join', requestMethod: 'POST'}));
     }
 
    $('#readyBtn').on('click', function(e) {

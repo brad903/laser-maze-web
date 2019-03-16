@@ -6,28 +6,31 @@ import java.util.Objects;
 
 public class MessageType {
 
-    private String Path;
-    private RequestMethod Method;
+    private String path;
+    private RequestMethod requestMethod;
 
-    public MessageType(String path, RequestMethod method) {
-        Path = path;
-        Method = method;
+    public MessageType() {
+    }
+
+    public MessageType(String path, RequestMethod requestMethod) {
+        this.path = path;
+        this.requestMethod = requestMethod;
     }
 
     public String getPath() {
-        return Path;
+        return path;
     }
 
     public void setPath(String path) {
-        Path = path;
+        this.path = path;
     }
 
-    public RequestMethod getMethod() {
-        return Method;
+    public RequestMethod getRequestMethod() {
+        return requestMethod;
     }
 
-    public void setMethod(RequestMethod method) {
-        Method = method;
+    public void setRequestMethod(RequestMethod requestMethod) {
+        this.requestMethod = requestMethod;
     }
 
     @Override
@@ -35,20 +38,20 @@ public class MessageType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MessageType that = (MessageType) o;
-        return Objects.equals(Path, that.Path) &&
-                Method == that.Method;
+        return Objects.equals(path, that.path) &&
+                requestMethod == that.requestMethod;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Path, Method);
+        return Objects.hash(path, requestMethod);
     }
 
     @Override
     public String toString() {
         return "MessageType{" +
-                "Path='" + Path + '\'' +
-                ", Method=" + Method +
+                "path='" + path + '\'' +
+                ", requestMethod=" + requestMethod +
                 '}';
     }
 }
