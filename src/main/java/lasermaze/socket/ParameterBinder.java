@@ -19,9 +19,11 @@ public class ParameterBinder {
 
     @Autowired
     public ParameterBinder(UserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver,
-                           GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver) {
+                           GameRoomHandlerMethodArgumentResolver gameRoomHandlerMethodArgumentResolver,
+                           WebSocketSessionMethodArgumentResolver webSocketSessionMethodArgumentResolver) {
         methodArgumentResolvers.add(userHandlerMethodArgumentResolver);
         methodArgumentResolvers.add(gameRoomHandlerMethodArgumentResolver);
+        methodArgumentResolvers.add(webSocketSessionMethodArgumentResolver);
     }
 
     public Object[] bind(Method method, MessageDto messageDto) throws Exception {
