@@ -1,6 +1,8 @@
 package lasermaze.socket;
 
+import lasermaze.dto.MessageDto;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.util.Objects;
 
@@ -31,6 +33,10 @@ public class MessageType {
 
     public void setRequestMethod(RequestMethod requestMethod) {
         this.requestMethod = requestMethod;
+    }
+
+    public MessageDto _toMessageDto(WebSocketSession session) {
+        return new MessageDto(this, session);
     }
 
     @Override

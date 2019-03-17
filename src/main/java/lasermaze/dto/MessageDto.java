@@ -12,6 +12,11 @@ public class MessageDto {
     public MessageDto() {
     }
 
+    public MessageDto(MessageType messageType, WebSocketSession webSocketSession) {
+        this.messageType = messageType;
+        this.webSocketSession = webSocketSession;
+    }
+
     public MessageType getMessageType() {
         return messageType;
     }
@@ -26,5 +31,13 @@ public class MessageDto {
 
     public void setWebSocketSession(WebSocketSession webSocketSession) {
         this.webSocketSession = webSocketSession;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDto{" +
+                "messageType=" + messageType +
+                ", webSocketSession=" + webSocketSession +
+                '}';
     }
 }

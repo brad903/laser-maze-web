@@ -2,20 +2,16 @@ package lasermaze.socket;
 
 import lasermaze.SocketController;
 import lasermaze.dto.MessageDto;
-import lasermaze.web.GameController;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -39,11 +35,11 @@ public class GameControllerMappingHandler {
             Object object = controllers.get(key);
             Class<?> clazz = object.getClass();
             Method[] methods = clazz.getDeclaredMethods();
-            registerMethods(object, methods);
+            registerPair(object, methods);
         }
     }
 
-    private void registerMethods(Object object, Method[] methods) {
+    private void registerPair(Object object, Method[] methods) {
         Arrays.stream(methods)
                 .filter(method -> method.isAnnotationPresent(RequestMapping.class))
                 .forEach(method -> mapper.put(_toMessageType(method), new Pair(object, method)));

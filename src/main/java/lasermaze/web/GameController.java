@@ -23,8 +23,6 @@ public class GameController {
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     public void joinRoom(User user, WebSocketSession webSocketSession) {
-        log.debug("호출");
-        log.debug("gameService : {}", gameService);
         gameService.joinRoom(user, webSocketSession);
     }
 }
